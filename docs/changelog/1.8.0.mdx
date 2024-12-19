@@ -1,7 +1,42 @@
----
-title: November 2024 - V1.8.0 Comming Soon
----
+## **December 2024 - V1.8.0**
 
-### Feature:
+### 🚀 **Highlighted Features**
 
-- Add support for alibaba cloud.
+#### **Proactive Replacement of High Interruption Rate Instances**  
+CloudPilot AI now proactively identifies and replaces instance types with high interruption rates, ensuring your workloads are running on more reliable alternatives. Additionally, during instance type selection, CloudPilot AI filters out options with historically high interruption rates.  
+With this enhancement, your workloads achieve greater stability and resilience.
+
+#### **Optimized Node Selection for Cost Efficiency**  
+CloudPilot AI's enhanced node selection algorithm prioritizes lower-cost instance types with acceptable interruption rates, overcoming the limitations of the default Karpenter logic, which may result in significantly higher costs.
+This feature helps reduce operational costs while maintaining reliability.
+
+#### **Diverse Instance Type Selection**
+Different instance types always have different interruption rates, and CloudPilot AI now provides a more diverse selection of instance types based on your workload requirements, to maximize the stability of your workloads.
+
+*This is an alpha feature—contact us to enable it!*
+
+### ⚙️ **Enhancements**  
+
+- **Enforced Least Privilege Access**: The agent's role and cluster role permissions have been tightened to follow the principle of least privilege, enhancing security and compliance.
+
+- **Clearer Optimization Plans**: Even in scenarios where optimization errors occur, CloudPilot AI now provides a more transparent and actionable optimization plan.
+
+- **Improved Spot Instance Stability**: Spot node transitions are now streamlined. CloudPilot AI eliminates repeated spot node replacements and directly achieves the final stable state within a shorter time frame.
+
+- **Zone selection**: CloudPilot AI now supports zone selection, ensuring that the nodes are launched in the correct zones.
+
+### 🛠️ **Bug Fixes**
+
+- **Guaranteed Node Management Availability**: Core CloudPilot AI components now utilize the highest priority class to ensure uninterrupted node management operations.
+
+- **Correct Shutdown of CloudPilot AI**: When rebalancing is disabled, webhook components will cease patching pods, allowing CloudPilot AI to stop correctly.
+
+- **Seamless Node Replacement** : CloudPilot AI now launches replacement nodes before decommissioning old nodes, ensuring minimal disruption to workloads.
+
+- **Rebalance Stability Improvements**: Consolidation is temporarily disabled during the rebalance process to maintain rebalance stability.
+
+- **Correct Handling of Single Replica Deployments**: Deployments with single replicas and persistent volume claims are now evicted using the Kubernetes eviction API, ensuring a smooth and expected eviction process.
+
+We believe these updates further enhance CloudPilot AI's performance, efficiency, and usability. For any questions or support, feel free to connect with us via our [Slack channel](https://app.slack.com/client/T073TAAS5FW/C073J7ECB9C).  
+
+Stay tuned for more updates! 🚀
