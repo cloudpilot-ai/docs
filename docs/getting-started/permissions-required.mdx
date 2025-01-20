@@ -167,7 +167,8 @@ In the second phase, **CloudPilot AI** will request the following privileges:
                 "cs:DescribeClusterDetail",
                 "cs:DescribeKubernetesVersionMetadata",
                 "cs:DescribeClusterAttachScripts",
-                "ess:DescribeScalingGroups"
+                "ess:DescribeScalingGroups",
+                "ecs:AddTags"
             ],
             "Resource": "*"
         },
@@ -195,6 +196,11 @@ In the second phase, **CloudPilot AI** will request the following privileges:
 }
 ```
 
-**CloudPilot AI** requires almost the same privileges as the open-source Karpenter, with the addition of permissions related to `AutoScalingGroup`, which are used to optimize existing nodes.
+**CloudPilot AI** requires almost the same privileges as the open-source Karpenter, with the addition of permissions related to:
+
+* `AWS/AutoScalingGroup`
+* `AlibabaCloud/ScalingGroup`
+
+All of these are used to optimize existing nodes.
 
 If you have any questions, please feel free to contact us through our [Slack channel](https://app.slack.com/client/T073TAAS5FW/C073J7ECB9C).
