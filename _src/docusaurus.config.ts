@@ -1,5 +1,5 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config, LoadContext} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config, LoadContext } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 import type { PluginOptions as RedirectOptions } from '@docusaurus/plugin-client-redirects';
 
@@ -14,21 +14,8 @@ const config: Config = {
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'CloudPilot AI', // Usually your GitHub org/user name.
-  projectName: 'doc', // Usually your repo name.
-
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
-
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
-  },
 
   presets: [
     [
@@ -40,16 +27,16 @@ const config: Config = {
           lastVersion: 'current',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl: function ({ locale, docPath }) {
+          editUrl({ locale, docPath }) {
             return `https://github.com/cloudpilot-ai/docs/edit/main/docs/${docPath}`;
-          },
+          }
         },
         blog: false,
         theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
-    ],
+          customCss: './src/css/custom.css'
+        }
+      } satisfies Preset.Options
+    ]
   ],
 
   themeConfig: {
@@ -66,12 +53,12 @@ const config: Config = {
       contextualSearch: true,
 
       // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
-      externalUrlRegex: 'external\\.com|domain\\.com',
+      externalUrlRegex: String.raw`external\.com|domain\.com`,
 
       // Optional: Replace parts of the item URLs from Algolia. Useful when using the same search index for multiple deployments using a different baseUrl. You can use regexp or string in the `from` param. For example: localhost:3000 vs myCompany.com/docs
       replaceSearchResultPathname: {
         from: '/docs/', // or as RegExp: /\/docs\//
-        to: '/',
+        to: '/'
       },
 
       // Optional: Algolia search parameters
@@ -81,9 +68,9 @@ const config: Config = {
       searchPagePath: 'search',
 
       // Optional: whether the insights feature is enabled or not on Docsearch (`false` by default)
-      insights: false,
+      insights: false
 
-      //... other Algolia params
+      // ... other Algolia params
     },
     // Replace with your project's social card
     // image: 'img/docusaurus-social-card.jpg',
@@ -92,26 +79,26 @@ const config: Config = {
       logo: {
         alt: 'CloudPilot AI Logo',
         src: 'https://assets.cloudpilot.ai/logo/logo.svg',
-        href: 'https://cloudpilot.ai',
+        href: 'https://cloudpilot.ai'
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Docs',
+          label: 'Docs'
         },
         {
           type: 'docSidebar',
           sidebarId: 'changelogSidebar',
           label: 'Changelog',
-          position: 'left',
+          position: 'left'
         },
         {
           to: 'api',
           sidebarId: 'apiSidebar',
           label: 'API',
-          position: 'left',
+          position: 'left'
         },
         /* Navbar Item "Karpenter GCP" */
         // {
@@ -154,34 +141,34 @@ const config: Config = {
               type: 'docSidebar',
               label: 'v0.1',
               sidebarId: 'karpeneterAlicloud_v0.1_Sidebar'
-            },
+            }
           ]
         },
         {
           to: 'https://www.cloudpilot.ai/pricing',
           label: 'Pricing',
-          position: 'right',
+          position: 'right'
         },
         {
           to: 'https://console.cloudpilot.ai',
           label: 'Sign Up',
-          position: 'right',
+          position: 'right'
         }
-      ],
+      ]
     },
     footer: {
       style: 'dark',
       links: [],
-      copyright: `Copyright © ${new Date().getFullYear()} CloudPilot AI, Inc. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} CloudPilot AI, Inc. Built with Docusaurus.`
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.github,
+      darkTheme: prismThemes.github
     },
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: true,
-    },
+      disableSwitch: true
+    }
   } satisfies Preset.ThemeConfig,
   plugins: [
     [
@@ -194,13 +181,13 @@ const config: Config = {
            */
           {
             from: '/karpenter/alibabacloud',
-            to: '/karpenter/alibabacloud/v0.1/getting-started/',
+            to: '/karpenter/alibabacloud/v0.1/getting-started/'
           },
           {
             from: '/karpenter/alibabacloud/installation',
-            to: '/karpenter/alibabacloud/v0.1/getting-started/set-up-a-cluster-and-add-karpenter/',
-          },
-        ],
+            to: '/karpenter/alibabacloud/v0.1/getting-started/set-up-a-cluster-and-add-karpenter/'
+          }
+        ]
       } satisfies Partial<RedirectOptions>
     ],
     (context) => ({
@@ -209,51 +196,51 @@ const config: Config = {
         return {
           headTags: [
             {
-              tagName: "link",
+              tagName: 'link',
               attributes: {
-                rel: "icon",
-                type: "image/svg+xml",
-                href: "https://assets.cloudpilot.ai/favicon/favicon.svg",
-              },
+                rel: 'icon',
+                type: 'image/svg+xml',
+                href: 'https://assets.cloudpilot.ai/favicon/favicon.svg'
+              }
             },
             {
-              tagName: "link",
+              tagName: 'link',
               attributes: {
-                rel: "icon",
-                type: "image/png",
-                sizes: "192x192",
-                href: "https://assets.cloudpilot.ai/favicon/web-app-manifest-192x192.png",
-              },
+                rel: 'icon',
+                type: 'image/png',
+                sizes: '192x192',
+                href: 'https://assets.cloudpilot.ai/favicon/web-app-manifest-192x192.png'
+              }
             },
             {
-              tagName: "link",
+              tagName: 'link',
               attributes: {
-                rel: "icon",
-                type: "image/png",
-                sizes: "96x96",
-                href: "https://assets.cloudpilot.ai/favicon/favicon-96x96.png",
-              },
+                rel: 'icon',
+                type: 'image/png',
+                sizes: '96x96',
+                href: 'https://assets.cloudpilot.ai/favicon/favicon-96x96.png'
+              }
             },
             {
-              tagName: "link",
+              tagName: 'link',
               attributes: {
-                rel: "shortcut icon",
-                href: "https://assets.cloudpilot.ai/favicon/favicon.ico",
-              },
+                rel: 'shortcut icon',
+                href: 'https://assets.cloudpilot.ai/favicon/favicon.ico'
+              }
             },
             {
-              tagName: "link",
+              tagName: 'link',
               attributes: {
-                rel: "apple-touch-icon",
-                sizes: "180x180",
-                href: "https://assets.cloudpilot.ai/favicon/apple-touch-icon.png",
-              },
-            },
+                rel: 'apple-touch-icon',
+                sizes: '180x180',
+                href: 'https://assets.cloudpilot.ai/favicon/apple-touch-icon.png'
+              }
+            }
           ]
-        }
+        };
       }
     })
-  ],
+  ]
 };
 
 export default config;

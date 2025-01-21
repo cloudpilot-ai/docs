@@ -21,8 +21,8 @@ const sidebars: SidebarsConfig = {
         'getting-started/introduction',
         'getting-started/getting-started',
         'getting-started/permissions-required',
-        'getting-started/installation-environment',
-      ],
+        'getting-started/installation-environment'
+      ]
     },
     {
       type: 'category',
@@ -31,9 +31,9 @@ const sidebars: SidebarsConfig = {
         'tips/ecr_auto_create',
         'tips/monitor_availability',
         'tips/aws_alb_best_practice',
-        'tips/aws_zone_id_name_query',
-      ],
-    },
+        'tips/aws_zone_id_name_query'
+      ]
+    }
   ],
   /**
    * For every product version, we create a new file in the "changelog" directory,
@@ -46,9 +46,9 @@ const sidebars: SidebarsConfig = {
       items: [
         'changelog/1.9.0',
         'changelog/1.8.0',
-        'changelog/1.7.0',
+        'changelog/1.7.0'
       ]
-    },
+    }
   ],
   apiSidebar: [
     {
@@ -56,8 +56,8 @@ const sidebars: SidebarsConfig = {
       label: 'API',
       link: { type: 'doc', id: 'api/index' },
       items: [
-      ],
-    },
+      ]
+    }
   ],
 
   /**
@@ -73,9 +73,9 @@ const sidebars: SidebarsConfig = {
       label: 'Getting Started',
       link: { type: 'doc', id: 'karpenter/alibabacloud/preview/getting-started/index' },
       items: [
-        'karpenter/alibabacloud/preview/getting-started/set-up-a-cluster-and-add-karpenter/index',
-      ],
-    },
+        'karpenter/alibabacloud/preview/getting-started/set-up-a-cluster-and-add-karpenter/index'
+      ]
+    }
   ],
   ['karpeneterAlicloud_v0.1_Sidebar']: [
     {
@@ -83,10 +83,10 @@ const sidebars: SidebarsConfig = {
       label: 'Getting Started',
       link: { type: 'doc', id: 'karpenter/alibabacloud/v0.1/getting-started/index' },
       items: [
-        'karpenter/alibabacloud/v0.1/getting-started/set-up-a-cluster-and-add-karpenter/index',
-      ],
-    },
-  ],
+        'karpenter/alibabacloud/v0.1/getting-started/set-up-a-cluster-and-add-karpenter/index'
+      ]
+    }
+  ]
 };
 
 export default sidebars;

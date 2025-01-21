@@ -1,6 +1,8 @@
 ---
-title: Prepare the terminal environment to get started
+title: Prepare the terminal environment
 ---
+
+# Prepare the terminal environment
 
 If you don't have a Bash shell environment (MacOS, Linux), you can launch a pod (with all the prerequisites installed) in the Kubernetes cluster using the following command:
 ```sh

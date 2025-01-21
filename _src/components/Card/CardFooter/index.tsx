@@ -1,19 +1,21 @@
-import React, { CSSProperties, ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
+import React from 'react';
 import clsx from 'clsx';
-interface CardBodyProps {
-  className?: string;
-  style?: CSSProperties;
-  children: ReactNode;
-  textAlign?: string;
-  variant?: string;
-  italic?: boolean;
-  noDecoration?: boolean;
-  transform?: string;
-  breakWord?: boolean;
-  truncate?: boolean;
-  weight?: string;
+
+interface CardFooterProps {
+  className?: string,
+  style?: CSSProperties,
+  children: ReactNode,
+  textAlign?: string,
+  variant?: string,
+  italic?: boolean,
+  noDecoration?: boolean,
+  transform?: string,
+  breakWord?: boolean,
+  truncate?: boolean,
+  weight?: string
 }
-const CardBody: React.FC<CardBodyProps> = ({
+const CardFooter: React.ComponentType<CardFooterProps> = ({
   className,
   style,
   children,
@@ -24,7 +26,7 @@ const CardBody: React.FC<CardBodyProps> = ({
   transform,
   breakWord = false,
   truncate = false,
-  weight,
+  weight
 }) => {
   const text = textAlign ? `text--${textAlign}` : '';
   const textColor = variant ? `text--${variant}` : '';
@@ -37,7 +39,7 @@ const CardBody: React.FC<CardBodyProps> = ({
   return (
     <div
       className={clsx(
-        'card__body',
+        'card__footer',
         className,
         text,
         textType,
@@ -54,5 +56,4 @@ const CardBody: React.FC<CardBodyProps> = ({
     </div>
   );
 };
-
-export default CardBody;
+export default CardFooter;
