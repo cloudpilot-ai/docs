@@ -8,14 +8,28 @@ export default {
     type: 'page',
     title: 'Getting Started'
   },
-  api: {
-    type: 'page',
-    title: 'API'
-  },
+  // api: {
+  //   type: 'page',
+  //   title: 'API'
+  // },
   changelog: {
     type: 'page',
     title: 'Changelog'
   },
+  'karpenter/alibabacloud': {
+    type: 'page',
+    title: 'Alibaba Cloud',
+    items: {
+      preview: {
+        type: 'page',
+        title: 'Preview'
+      },
+      'v0.1': {
+        type: 'page',
+        title: 'v0.1'
+      }
+    }
+  }
   // changelog: {
   //   type: 'page',
   //   title: 'Documentation',
@@ -44,20 +58,20 @@ export default {
   //     // }
   //   }
   // },
-  versions: {
-    type: 'menu',
-    title: 'Versions',
-    items: {
-      // _3: {
-      //   title: 'Nextra v3 Docs',
-      //   href: 'https://nextra-v2-7hslbun8z-shud.vercel.app'
-      // },
-      // _2: {
-      //   title: 'Nextra v2 Docs',
-      //   href: 'https://nextra-v2-oe0zrpzjp-shud.vercel.app'
-      // }
-    }
-  }
+  // versions: {
+  //   type: 'menu',
+  //   title: 'Versions',
+  //   items: {
+  //     // _3: {
+  //     //   title: 'Nextra v3 Docs',
+  //     //   href: 'https://nextra-v2-7hslbun8z-shud.vercel.app'
+  //     // },
+  //     // _2: {
+  //     //   title: 'Nextra v2 Docs',
+  //     //   href: 'https://nextra-v2-oe0zrpzjp-shud.vercel.app'
+  //     // }
+  //   }
+  // }
   // about: {
   //   type: 'page',
   //   theme: {
