@@ -16,17 +16,17 @@ export default {
     type: 'page',
     title: 'Changelog'
   },
-  'karpenter/alibabacloud': {
-    type: 'page',
+  'karpenter-alibabacloud': {
+    type: 'menu',
     title: 'Alibaba Cloud',
     items: {
-      preview: {
-        type: 'page',
-        title: 'Preview'
-      },
       'v0.1': {
-        type: 'page',
-        title: 'v0.1'
+        title: 'v0.1',
+        href: '/karpenter-alibabacloud/v0.1'
+      },
+      pewview: {
+        title: 'Preview',
+        href: '/karpenter-alibabacloud/preview'
       }
     }
   }
