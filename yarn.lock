@@ -379,10 +379,10 @@
     string-ts "^2.2.0"
     ts-pattern "^5.6.1"
 
-"@eslint-sukka/eslint-plugin-react-jsx-a11y@6.13.1-beta.1":
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/@eslint-sukka/eslint-plugin-react-jsx-a11y/-/eslint-plugin-react-jsx-a11y-6.13.1-beta.1.tgz#4ff5e71a229fc3e5cb6023e338eb37e035c6a847"
-  integrity sha512-S/onhz7CJiz+uS2eA0cNL2juGjyBrHscWWOb3bzAbiHTPPp1Aa7sO2MQXSAe204xPRqD3SFvaxr2XGM6SK93Fw==
+"@eslint-sukka/eslint-plugin-react-jsx-a11y@6.13.1":
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/@eslint-sukka/eslint-plugin-react-jsx-a11y/-/eslint-plugin-react-jsx-a11y-6.13.1.tgz#41d03d5fa452d89f89048ca7c48b1e546d227c3b"
+  integrity sha512-quK1UOYGGT20nPDdjQ+UhDjfi3hwhRSQlcoQAVbP5p+oID4eje7GI2fO7mNXPvpGrM435MqGIIWlL3zhB/jKcg==
   dependencies:
     "@nolyfill/array-includes" "^1.0.28"
     "@nolyfill/array.prototype.flat" "^1.0.28"
@@ -398,23 +398,23 @@
     "@nolyfill/safe-regex-test" "^1.0.29"
     "@nolyfill/string.prototype.includes" "^1.0.28"
 
-"@eslint-sukka/node@^6.13.1-beta.1":
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/@eslint-sukka/node/-/node-6.13.1-beta.1.tgz#94519a4592c6b5a000d45448033a633694c73942"
-  integrity sha512-269JFkIWFiNQXpAvkoUTD+B5NlBj2MrAx0u6KjjwS92ySXT9TH+bkvFSAHigWbB/e09VygmaJZrU2hFGtfrZYw==
+"@eslint-sukka/node@^6.13.1":
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/@eslint-sukka/node/-/node-6.13.1.tgz#5c28746791bd002d9623529d0b62725e3007154c"
+  integrity sha512-Yy5BLzb4iL75mQECFQG6s9HjWgYJV23gxoQnU2emvdNPdCM5b7il5zCpU2bxABZk+sl5pHhVBQB/0DEvTWqm+Q==
   dependencies:
-    "@eslint-sukka/shared" "6.13.1-beta.1"
+    "@eslint-sukka/shared" "6.13.1"
     eslint-plugin-n "^17.15.1"
-    eslint-plugin-sukka "6.13.1-beta.1"
+    eslint-plugin-sukka "6.13.1"
 
-"@eslint-sukka/react@^6.13.1-beta.1":
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/@eslint-sukka/react/-/react-6.13.1-beta.1.tgz#ddd0ed4e6dd5433f0007a38b203b4746aca4b7cb"
-  integrity sha512-96lB1HEdUAk4pmNIkUIDfrFKm9xOOPot+Y6fPW5wYaa8wJdS4CJIJhevppNAmSR7/CB8LgPCVgp4SZf9e5N/Rw==
+"@eslint-sukka/react@^6.13.1":
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/@eslint-sukka/react/-/react-6.13.1.tgz#768ad21951e0b8990a3c6e146601cb9e500dce00"
+  integrity sha512-hPs8DOAJ6s1Q20ybMKYQHbL7oBioL64Pf2QJyxUDbZWeV+n3E3oU6Y5CDcl6vGs4ekoMGEb13ZRcZlMCC9hxrQ==
   dependencies:
     "@eslint-react/eslint-plugin" "^1.24.0"
-    "@eslint-sukka/eslint-plugin-react-jsx-a11y" "6.13.1-beta.1"
-    "@eslint-sukka/shared" "6.13.1-beta.1"
+    "@eslint-sukka/eslint-plugin-react-jsx-a11y" "6.13.1"
+    "@eslint-sukka/shared" "6.13.1"
     "@eslint/compat" "^1.2.5"
     "@next/eslint-plugin-next" "^15.1.5"
     "@stylexjs/eslint-plugin" "^0.10.1"
@@ -425,10 +425,10 @@
     eslint-plugin-react-refresh "^0.4.18"
     eslint-plugin-ssr-friendly "^1.3.0"
 
-"@eslint-sukka/shared@6.13.1-beta.1":
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/@eslint-sukka/shared/-/shared-6.13.1-beta.1.tgz#89a00e0ac71d971db2b69560bea45ecce3a47877"
-  integrity sha512-6OPJoYDNfuz0mJb/3rxMH1YXcDFVo+Da47MQwScBRgzviS5rgMnAx751Wlq1pwyVFEuwvaTR/b0PiJg/2Jcu2Q==
+"@eslint-sukka/shared@6.13.1":
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/@eslint-sukka/shared/-/shared-6.13.1.tgz#f482500bc3e8255666190c03ae44d32a342cc7b5"
+  integrity sha512-Bt+0Sr/Dzn4ExZOW8HR0P1O/4a+QuVqZkuhqoVdpJOygprWiV1ENmAwT5Mzbk9yw9zGkAv5aEHa7ju7ye0HTrg==
   dependencies:
     "@dual-bundle/import-meta-resolve" "^4.1.0"
     "@package-json/types" "^0.0.11"
@@ -764,10 +764,10 @@
     unist-util-visit "^5.0.0"
     vfile "^6.0.0"
 
-"@mdx-js/react@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.npmmirror.com/@mdx-js/react/-/react-3.0.1.tgz"
-  integrity sha512-9ZrPIU4MGf6et1m1ov3zKf+q9+deetI51zprKB1D/z3NOb+rUxxtEl3mCjW5wTGh6VhRdwPueh1oRzi6ezkA8A==
+"@mdx-js/react@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@mdx-js/react/-/react-3.1.0.tgz#c4522e335b3897b9a845db1dbdd2f966ae8fb0ed"
+  integrity sha512-QjHtSaoameoalGnKDT3FoIl4+9RwyTmo9ZJGBdLOks/YOiWHoRDI3PUwEzOE7kEmGcV3AFcp9K6dYu9rEuKLAQ==
   dependencies:
     "@types/mdx" "^2.0.0"
 
@@ -2489,13 +2489,13 @@ eslint-compat-utils@^0.6.0:
   dependencies:
     semver "^7.5.4"
 
-eslint-config-sukka@^6.13.1-beta.1:
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-sukka/-/eslint-config-sukka-6.13.1-beta.1.tgz#2f7438f3afb36971904d112a37c1466d2480ec27"
-  integrity sha512-q9OvvtWzhgXKJT2rIelzp03MH54PtxLQNtHRWYOCwI8axZobFGss5IdJkUhvjoL68i3xs0J3W7bP7p4dCEtwYw==
+eslint-config-sukka@^6.13.1:
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/eslint-config-sukka/-/eslint-config-sukka-6.13.1.tgz#31051676661fb6cc14f0dd6d3d87c1d13e2d3a8c"
+  integrity sha512-qkf7hcZgd+XfeT9jLvDiWeFgOYFu2BT6y4/DqX4IkEWFWyOxbjtEH1vfSuDcMT0e+J3FIt+3CKN0XzkoTOD3sA==
   dependencies:
     "@eslint-community/eslint-plugin-eslint-comments" "^4.4.1"
-    "@eslint-sukka/shared" "6.13.1-beta.1"
+    "@eslint-sukka/shared" "6.13.1"
     "@eslint/js" "^9.18.0"
     "@stylistic/eslint-plugin-js" "^2.13.0"
     "@stylistic/eslint-plugin-plus" "^2.13.0"
@@ -2510,16 +2510,16 @@ eslint-config-sukka@^6.13.1-beta.1:
     eslint-plugin-jsonc "^2.18.2"
     eslint-plugin-promise "^7.2.1"
     eslint-plugin-regexp "^2.7.0"
-    eslint-plugin-sukka "6.13.1-beta.1"
+    eslint-plugin-sukka "6.13.1"
     eslint-plugin-unused-imports "^4.1.4"
     jsonc-eslint-parser "^2.4.0"
     picocolors "^1.1.1"
     typescript-eslint "^8.21.0"
 
-eslint-formatter-sukka@^6.13.1-beta.1:
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/eslint-formatter-sukka/-/eslint-formatter-sukka-6.13.1-beta.1.tgz#71738a09e8339f9b5fc8d2af6e82c358b79421c7"
-  integrity sha512-wZkGPhWDR32A+Q6ME7GJtXSVRz71rzjxzTQXG1Nyr/OCpjpiGLKe0RCUkWxyxVt7kM6mNdHqvdOxweGxCMJw9g==
+eslint-formatter-sukka@^6.13.1:
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/eslint-formatter-sukka/-/eslint-formatter-sukka-6.13.1.tgz#4058e0db2b72d000ce90d697a9c95f275e5198d1"
+  integrity sha512-nWBqFiyikKtlAnT2ENaMG7K9bnOriio/5547RquoLd1k6k9j/1mH9E+rPR2+0ExgFLJDgK3btCVu7J+y5GcRVA==
   dependencies:
     ci-info "^4.1.0"
     picocolors "^1.1.1"
@@ -2784,12 +2784,12 @@ eslint-plugin-ssr-friendly@^1.3.0:
   dependencies:
     globals "^13.8.0"
 
-eslint-plugin-sukka@6.13.1-beta.1:
-  version "6.13.1-beta.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-sukka/-/eslint-plugin-sukka-6.13.1-beta.1.tgz#959e324684df01f5651af54866152cc3b902e076"
-  integrity sha512-5LtMjR5+IwdttGkru6ih3inI9rjJOvcDUFWqEQ7McJjDxv11tb/waI/6/hzKcE7FRfJwdsuOYHwIvGMxwxEi0A==
+eslint-plugin-sukka@6.13.1:
+  version "6.13.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-sukka/-/eslint-plugin-sukka-6.13.1.tgz#7585a3d1ddceb74159d3a21f09abf0f626f816f9"
+  integrity sha512-TY7hmnkFR5o9FE07UlaNx9GdJSvmbQWB4TikIkGT/+x7NZ17gHaQALTBykNtKtTqszUR6+APAvVwIpE5HbhlAA==
   dependencies:
-    "@eslint-sukka/shared" "6.13.1-beta.1"
+    "@eslint-sukka/shared" "6.13.1"
     "@typescript-eslint/type-utils" "^8.21.0"
     "@typescript-eslint/utils" "^8.21.0"
 
@@ -4540,10 +4540,10 @@ next@^15.1.5:
     "@next/swc-win32-x64-msvc" "15.1.5"
     sharp "^0.33.5"
 
-nextra-theme-docs@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/nextra-theme-docs/-/nextra-theme-docs-4.0.4.tgz#584783f779681581ee55bfb305bdb7ef5b12d931"
-  integrity sha512-AI6B+0ezFgMPQ8/KNg7IlCX2NHY0VP1ceAUt/CUUDEP2rsR9StaPI+YCe0NZJkq0F9seLcWOKa5yGvYwK7/+jg==
+nextra-theme-docs@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/nextra-theme-docs/-/nextra-theme-docs-4.0.5.tgz#f649ae12cece6d8bfb05b0f415bbb4ef66d38261"
+  integrity sha512-aF4HRjbVZvd+VWTssaieXFyJ7xVnGiKlJZ+WfxCG95izoHuYdY3dwibQTc32ERMXWAg//h/t7en5QggF3hKVaA==
   dependencies:
     "@headlessui/react" "^2.1.2"
     clsx "^2.1.0"
@@ -4554,10 +4554,10 @@ nextra-theme-docs@^4.0.4:
     zod-validation-error "^3.0.0"
     zustand "^5.0.1"
 
-nextra@^4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/nextra/-/nextra-4.0.4.tgz#fdbc93594776c81422f84317caa938f6a7875d01"
-  integrity sha512-UqfBlbc+Is7dNjMnpv0Hd7tXn7yX2wiISNPzp+zhqSO7vUsLtFFeib7G8AdXYR8l1MrJZpw7MBrGXa4u9kacNg==
+nextra@^4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/nextra/-/nextra-4.0.5.tgz#258cd7c1f288fc74ea630c8404200676a1fefe68"
+  integrity sha512-wv1rzzQJtREGZDjdR7G41z3d7NewHvpmgNmPwEABIlEfgsmyEdMSZbrkn5jna8/2SUBsSio/lcBIGemkvuBtSA==
   dependencies:
     "@formatjs/intl-localematcher" "^0.5.4"
     "@headlessui/react" "^2.1.2"
