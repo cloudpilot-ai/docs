@@ -2,7 +2,9 @@
 title: Getting Started
 ---
 
-:::note
+import { Callout } from 'nextra/components'
+
+<Callout type="info">
 To support the community's growth, the following non-sensitive data will be uploaded to the CloudPilot AI server when the Karpenter AlibabaCloud Provider is installed:
 - The instance types of nodes at component launch.
 - The cluster's resource usage (CPU/Memory).
@@ -12,7 +14,7 @@ To support the community's growth, the following non-sensitive data will be uplo
 - The cluster's ID as the unique identifier.
 
 This data-sharing feature is enabled by default, but you can disable it by setting the `--telemetry-share=false` flag or the environment variable `TELEMETRY_SHARE=false`.
-:::
+</Callout>
 
 Karpenter is an open-source node lifecycle management project built for Kubernetes. Adding Karpenter to a Kubernetes cluster can dramatically improve the efficiency and cost of running workloads on that cluster. Karpenter works by:
 

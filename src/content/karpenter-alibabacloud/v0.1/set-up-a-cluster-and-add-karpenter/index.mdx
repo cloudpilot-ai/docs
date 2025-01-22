@@ -2,6 +2,8 @@
 title: Set up a cluster and add Karpenter
 ---
 
+import { Callout } from 'nextra/components'
+
 Karpenter automatically provisions new nodes in response to unschedulable pods. Karpenter does this by observing events within the Kubernetes cluster, and then sending commands to the underlying cloud provider.
 
 This guide shows how to get started with Karpenter by installing Karpenter. To use Karpenter, you must be running a supported Kubernetes cluster on Alibaba Cloud provider.
@@ -24,9 +26,9 @@ aliyun configure
 
 ### Step 2. Prepare an Alibaba Cloud ACK cluster
 
-:::note
+<Callout type="info">
 If you already have an ACK cluster, please skip this step.
-:::
+</Callout>
 
 Referring to [Create ACK cluster with Terraform](https://github.com/cloudpilot-ai/examples/tree/main/clusters/ack-spot-flannel) to create a cluster easily.
 
