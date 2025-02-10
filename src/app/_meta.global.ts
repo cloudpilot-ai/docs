@@ -15,8 +15,15 @@ export default {
     title: 'Guide',
     items: {
       'getting-started': {},
+      'permissions-required': {},
+      'installation-environment': {},
       tips: {
-        items: {}
+        items: {
+          ecr_auto_create: {},
+          monitor_availability: {},
+          aws_alb_best_practice: {},
+          aws_zone_id_name_query: {}
+        }
       }
     }
   },
@@ -24,6 +31,9 @@ export default {
     type: 'page',
     title: 'Changelog',
     items: {
+      '1.9.0': {},
+      '1.8.0': {},
+      '1.7.0': {}
     }
   },
   'karpenter-alibabacloud': {
