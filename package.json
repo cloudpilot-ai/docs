@@ -1,5 +1,5 @@
 {
-  "name": "doc",
+  "name": "cloudpilot-ai-docs",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -11,21 +11,21 @@
   "dependencies": {
     "@mdx-js/react": "^3.1.0",
     "clsx": "^2.1.1",
-    "eslint": "^9.18.0",
-    "eslint-config-sukka": "^6.13.1",
-    "eslint-formatter-sukka": "^6.13.1",
-    "foxact": "^0.2.43",
-    "next": "^15.1.5",
-    "nextra": "^4.0.5",
-    "nextra-theme-docs": "^4.0.5",
+    "eslint": "^9.20.0",
+    "eslint-config-sukka": "^6.13.3",
+    "eslint-formatter-sukka": "^6.13.3",
+    "foxact": "^0.2.44",
+    "next": "^15.1.6",
+    "nextra": "^4.2.6",
+    "nextra-theme-docs": "^4.2.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@eslint-sukka/node": "^6.13.1",
-    "@eslint-sukka/react": "^6.13.1",
+    "@eslint-sukka/node": "^6.13.3",
+    "@eslint-sukka/react": "^6.13.3",
     "@types/node": "22.10.7",
-    "@types/react": "^19.0.7",
+    "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "babel-plugin-react-compiler": "^19.0.0-beta-decd7b8-20250118",
     "typescript": "^5.7.3"

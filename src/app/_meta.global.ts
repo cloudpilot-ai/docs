@@ -1,7 +1,14 @@
 export default {
   index: {
     title: 'Homepage',
-    display: 'hidden'
+    display: 'hidden',
+    theme: {
+      breadcrumb: false,
+      footer: true,
+      sidebar: false,
+      toc: false,
+      pagination: false
+    }
   },
   guide: {
     type: 'page',
@@ -21,12 +28,10 @@ export default {
   },
   'karpenter-alibabacloud': {
     type: 'page',
-    display: 'hidden',
     items: {
       v0_1: {
         type: 'page',
         title: 'v0.1',
-        display: 'children',
         items: {
           index: {},
           'set-up-a-cluster-and-add-karpenter': {}
@@ -35,7 +40,6 @@ export default {
       preview: {
         type: 'page',
         title: 'Preview',
-        display: 'children',
         items: {
           index: {},
           'set-up-a-cluster-and-add-karpenter': {}

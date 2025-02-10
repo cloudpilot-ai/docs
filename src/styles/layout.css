@@ -1,0 +1,3 @@
+body > header > nav a[href*="/karpenter-alibabacloud/"]:not(data-headlessui-state) {
+  display: none;
+}

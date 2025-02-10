@@ -6,6 +6,8 @@ import 'nextra-theme-docs/style.css';
 import { CurrentYear } from 'foxact/current-year';
 import type { Metadata } from 'next';
 
+import '../styles/layout.css';
+
 export const metadata: Metadata = {
   // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
   metadataBase: new URL('https://docs.cloudpilot.ai'),

@@ -8,7 +8,7 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"]
+      "@": ["src/"]
     },
     "resolveJsonModule": true,
     "allowJs": true,
