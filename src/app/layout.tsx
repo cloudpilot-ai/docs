@@ -92,6 +92,9 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
       </Head>
       <body>
         <Layout
+          nextThemes={{
+            defaultTheme: 'light'
+          }}
           // banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
