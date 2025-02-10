@@ -10,7 +10,7 @@ const withNextra = nextra({
 module.exports = withNextra({
   output: 'export',
   reactStrictMode: true,
-  trailingSlash: false,
+  trailingSlash: true,
   images: {
     unoptimized: true // mandatory, otherwise won't export
   },

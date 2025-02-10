@@ -1,6 +1,11 @@
 export default {
   index: {
     title: 'Homepage',
+    display: 'hidden'
+  },
+  guide: {
+    type: 'page',
+    title: 'Guide',
     items: {
       'getting-started': {},
       tips: {
@@ -18,13 +23,23 @@ export default {
     type: 'page',
     display: 'hidden',
     items: {
-      'v0.1': {
+      v0_1: {
         type: 'page',
-        title: 'v0.1'
+        title: 'v0.1',
+        display: 'children',
+        items: {
+          index: {},
+          'set-up-a-cluster-and-add-karpenter': {}
+        }
       },
       preview: {
         type: 'page',
-        title: 'Preview'
+        title: 'Preview',
+        display: 'children',
+        items: {
+          index: {},
+          'set-up-a-cluster-and-add-karpenter': {}
+        }
       }
     }
   },
@@ -34,7 +49,7 @@ export default {
     items: {
       'v0.1': {
         title: 'v0.1',
-        href: '/karpenter-alibabacloud/v0.1'
+        href: '/karpenter-alibabacloud/v0_1/'
       },
       preview: {
         title: 'Preview',
