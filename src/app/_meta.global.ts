@@ -14,9 +14,13 @@ export default {
     type: 'page',
     title: 'Guide',
     items: {
-      'getting-started': {},
-      'permissions-required': {},
-      'installation-environment': {},
+      getting_started: {
+        items: {
+          getting_started: {},
+          permissions_required: {},
+          installation_environment: {}
+        }
+      },
       tips: {
         items: {
           ecr_auto_create: {},
