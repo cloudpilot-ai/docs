@@ -48,7 +48,11 @@ export default {
         title: 'v0.1',
         items: {
           index: {},
-          'set-up-a-cluster-and-add-karpenter': {}
+          getting_started: {
+            items: {
+              'set-up-a-cluster-and-add-karpenter': {}
+            }
+          }
         }
       },
       preview: {
@@ -56,9 +60,13 @@ export default {
         title: 'Preview',
         items: {
           index: {},
-          'set-up-a-cluster-and-add-karpenter': {}
+          getting_started: {
+            items: {
+              'set-up-a-cluster-and-add-karpenter': {}
+            }
+          }
         }
-      }
+      },
     }
   },
   '__karpeneter-alibabacloud__menu': {

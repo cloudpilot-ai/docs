@@ -1,8 +1,19 @@
 ---
-title: Getting Started
+title: Overview
 ---
 
 import { Callout } from 'nextra/components'
+
+Karpenter is an open-source node lifecycle management project built for Kubernetes. Adding Karpenter to a Kubernetes cluster can dramatically improve the efficiency and cost of running workloads on that cluster. Karpenter works by:
+
+* **Watching** for pods that the Kubernetes scheduler has marked as unschedulable.
+* **Evaluating** scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods.
+* **Provisioning** nodes that meet the requirements of the pods.
+* **Disrupting** the nodes when the nodes are no longer needed.
+
+Learn more about Karpenter and how to get started below.
+
+* [Set up a cluster and add Karpenter](./getting_started/set-up-a-cluster-and-add-karpenter)
 
 <Callout type="info">
 To support the community's growth, the following non-sensitive data will be uploaded to the CloudPilot AI server when the Karpenter AlibabaCloud Provider is installed:
@@ -15,14 +26,3 @@ To support the community's growth, the following non-sensitive data will be uplo
 
 This data-sharing feature is enabled by default, but you can disable it by setting the `--telemetry-share=false` flag or the environment variable `TELEMETRY_SHARE=false`.
 </Callout>
-
-Karpenter is an open-source node lifecycle management project built for Kubernetes. Adding Karpenter to a Kubernetes cluster can dramatically improve the efficiency and cost of running workloads on that cluster. Karpenter works by:
-
-* **Watching** for pods that the Kubernetes scheduler has marked as unschedulable.
-* **Evaluating** scheduling constraints (resource requests, nodeselectors, affinities, tolerations, and topology spread constraints) requested by the pods.
-* **Provisioning** nodes that meet the requirements of the pods.
-* **Disrupting** the nodes when the nodes are no longer needed.
-
-Learn more about Karpenter and how to get started below.
-
-* [Set up a cluster and add Karpenter](./set-up-a-cluster-and-add-karpenter)
