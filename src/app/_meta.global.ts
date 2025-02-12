@@ -66,7 +66,7 @@ export default {
             }
           }
         }
-      },
+      }
     }
   },
   '__karpeneter-alibabacloud__menu': {

@@ -1,6 +1,6 @@
 {
-    "redirects": [
-      { "source": "/", "destination": "/guide", "permanent": false },
-      { "source": "/karpenter/alibabacloud", "destination": "/karpenter-alibabacloud/v0_1", "permanent": false }
-    ]
+  "redirects": [
+    { "source": "/", "destination": "/guide", "permanent": false },
+    { "source": "/karpenter/alibabacloud", "destination": "/karpenter-alibabacloud/v0_1", "permanent": false }
+  ]
 }
