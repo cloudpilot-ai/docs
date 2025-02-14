@@ -1,12 +1,13 @@
 ---
-title: Ensure Accessibility of AWS EKS Load Balancer Service
+title: Ensure Accessibility of AWS EKS Network Load Balancer Service
 ---
 
-# Ensure Accessibility of AWS EKS Load Balancer Service
+# Ensure Accessibility of AWS Network EKS Load Balancer Service
 
-When using AWS EKS Load Balancer Service, if the replicas of a workload are few, you may encounter accessibility issues from time to time.
+When using AWS EKS Network Load Balancer Service, if the replicas of a workload are few, you may encounter accessibility issues from time to time.
 
-### Example (AWS Load Balancer Controller should be installed):
+You can try the following experiment using this YAML file (ensure that the AWS Load Balancer Controller is installed):
+
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
