@@ -2,6 +2,8 @@
 title: Best Practices for Ensuring Service Availability with AWS ALB
 ---
 
+# Best Practices for Ensuring Service Availability with AWS ALB
+
 In an AWS EKS environment, using an ALB may lead to service downtime. The issue typically arises as follows:
 
 ![problem-img](./img/alb_time_logic.png)

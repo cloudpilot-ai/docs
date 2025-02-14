@@ -2,6 +2,8 @@
 title: Query the correspondence between AWS zone id and zone name
 ---
 
+# Query the correspondence between AWS zone id and zone name
+
 When managing AWS resources, such as EC2 instances, you will often encounter the zone location of these resources. 
 
 The zone location is typically displayed as the zone name. However, there may be times when you need to know the zone ID for specific reasons, such as identifying the most cost-effective zone for a particular EC2 instance type, which is always displayed with the zone ID. To find the correspondence, run the following command:
