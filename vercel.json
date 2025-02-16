@@ -1,6 +1,7 @@
 {
   "redirects": [
     { "source": "/", "destination": "/guide", "permanent": false },
-    { "source": "/karpenter/alibabacloud", "destination": "/karpenter-alibabacloud/v0_1", "permanent": false }
+    { "source": "/karpenter/alibabacloud", "destination": "/karpenter-alibabacloud/v0_1", "permanent": false },
+    { "source": "/karpenter/alibabacloud/installation", "destination": "/karpenter-alibabacloud/v0_1/getting_started/set-up-a-cluster-and-add-karpenter", "permanent": false }
   ]
 }
