@@ -70,7 +70,7 @@ const footer = (
   <Footer>
     Copyright &copy; 2024 -
     {' '}
-    <CurrentYear defaultYear={2025} />
+    <CurrentYear style={{ display: 'contents' }} defaultYear={2025} />
     {' '}
     CloudPilot AI, Inc. | Made with Nextra
   </Footer>
