@@ -1,0 +1,44 @@
+---
+title: Keep Some Existing Nodes and Exclude Them from Optimization
+---
+
+import { Callout } from 'nextra/components'
+
+# Keep Some Existing Nodes and Exclude Them from Optimization
+
+In some scenarios, users may want to keep certain nodes:
+- Some nodes are on an annual or monthly subscription, and they have not yet expired. These nodes should be kept until their subscription ends.
+- Some nodes are Reserved Instances (RI) or Savings Plan (SP), and the contract has not yet expired. These should also be kept until their contract ends.
+
+<Callout type="info">
+- **Reserved Instances (RI)**: Prepaid instances with significant discounts for a 1- or 3-year commitment to a specific instance type and region.  
+
+- **Savings Plan**: A flexible commitment-based discount model that applies to various instance types and regions over 1 or 3 years.
+</Callout>
+
+By following the steps below, you can selectively optimize only a part of the nodes.
+
+## Install CloudPilot AI
+
+Before proceeding, please install CloudPilot AI by following the instructions in the [Quickstart guide](/guide/getting_started/getting_started). However, remember to only execute the first three steps.
+
+## Add Annotations to Nodes
+
+Add annotation `karpenter.sh/do-not-disrupt: "true"` to the nodes you want to keep. For example:
+
+```sh
+$ kubectl get node
+NAME                       STATUS   ROLES    AGE    VERSION
+node-01.172.16.0.167       Ready    <none>   60m    v1.31.1-k8s.1
+node-02.172.16.3.212       Ready    <none>   2m8s   v1.31.1-k8s.1
+
+$ kubectl annotate node node-01.172.16.0.167 karpenter.sh/do-not-disrupt=true
+node/node-01.172.16.0.167 annotated
+```
+
+Once you've annotated the nodes, go to the console, and you'll see the annotated node will be kept:
+![img](./img/keep_node.png)
+
+## Start Cluster Optimization
+
+Now, click the `Start Saving` button. CloudPilot AI will begin optimizing only the nodes that are not annotated. In the end, you will see that only the un-annotated nodes are optimized.

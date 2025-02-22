@@ -17,8 +17,17 @@ export default {
       getting_started: {
         items: {
           getting_started: {},
-          permissions_required: {},
           installation_environment: {}
+        }
+      },
+      nodes_optimization: {
+        items: {
+          keep_part_nodes: {},
+        }
+      },
+      security: {
+        items: {
+          permissions_required: {},
         }
       },
       tips: {
