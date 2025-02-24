@@ -22,12 +22,12 @@ export default {
       },
       nodes_optimization: {
         items: {
-          keep_part_nodes: {},
+          keep_part_nodes: {}
         }
       },
       security: {
         items: {
-          permissions_required: {},
+          permissions_required: {}
         }
       },
       tips: {
