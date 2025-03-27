@@ -1,0 +1,92 @@
+# Node Template Configuration Guide
+
+# 1. Configuration Overview
+
+Node template Configuration allows you to customize various settings of the nodes in your system to optimize performance, cost-effectiveness, and reliability. The main configuration options are General Node Provision configuration, GPU Node Provision configuration.
+
+![Node Configuration Workflow](./img/overview.png)
+
+# 2. AWS Node Provision Configuration
+
+The following table provides a list of AWS node provision configuration parameters:
+
+| Parameter | Description | Default Value |
+| --------- | ----------- | ------------- |
+| Instance Family | Supports specifying instance types (e.g., t3, m5) and allows multiple choices (comma-separated) for matching scenarios with different computational requirements. | All instance families |
+| Instance Arch | Automatically recognizes cluster architecture, also manually configures, allows multiple selection of amd64, arm64 | amd64 |
+| Capacity Type | Either on-demand or spot, both are selected by default | spot, on-demand |
+| Instance Tags | Mark nodes in key=value format (e.g., cloudpilot.ai/managed=true) for resource classification, billing, or automated management. | cloudpilot.ai/managed=true |
+| Zone ID | Specify the specific region in which the node is deployed (e.g., us-west-1a) to support multi-zone inputs to enhance disaster recovery or meet compliance requirements. | all available zones |
+| System Disk Size | Default 20GiB, user-adjustable on demand, example stays at default. | 20GiB |
+| Extra CPU Allocation | Support for reserving extra CPU (mCore) for bursty tasks is not enabled in the example (both 0). | 0 |
+| Extra Memory Allocation | Support for reserving extra memory (MiB) for bursty tasks is not enabled in the example (both 0). | 0 |
+| Min CPU | Minimum number of CPU cores per node. 0 = unlimited. When set > 0, allocated cores must meet or exceed this value. | 0 (Unlimited) |
+| Min Memory | Minimum memory size (MiB) per node. 0 = unlimited. When set >0, allocated memory must meet or exceed this value. | 0 (Unlimited) |
+| Max CPU | Maximum number of CPU cores per node. 0 = unlimited. When set > 0, allocated cores must be less than this value. | 0 (Unlimited) |
+| Max Memory | Maximum memory size (MiB) per node. 0 = unlimited. When set >0, allocated memory must be less than this value. | 0 (Unlimited) |
+| Enable GPU Node Provision | Enable GPU node provisioning and specify GPU instance family, minimum number of graphics cards and graphics memory requirements. | Disabled |
+| GPU Instance Family | Supports specifying instance types (e.g., p4d, p4) and allows multiple choices (comma-separated) for matching scenarios with different computational requirements. | All GPU instance families |
+| Min Graphic Cards | Limit the number of GPU cards in a single node. | 0 (Unlimited) |
+| Min Graphic Memory | Limit the minimum graphics memory size (MiB) in a single node. | 0 (Unlimited) |
+
+
+# 3. AlibabaCloud Node Provision Configuration
+
+The following table provides a list of AlibabaCloud node provision configuration parameters:
+
+| Parameter | Description | Default Value |
+| --------- | ----------- | ------------- |
+| Instance Family | Supports specifying instance types (e.g., ecs.g5, ecs.r6) and allows multiple choices (comma-separated) for matching scenarios with different computational requirements. | All instance families |
+| Instance Arch | Automatically recognizes cluster architecture, also manually configures, allows multiple selection of amd64, arm64 | amd64 |
+| Capacity Type | Either on-demand or spot, both are selected by default | spot, on-demand |
+| Instance Tags | Mark nodes in key=value format (e.g., cloudpilot.ai/managed=true) for resource classification, billing, or automated management. | cloudpilot.ai/managed=true |
+| Image Alias | The system images used on provisioned nodes, ContainerOS only supports x86, while AlibabaCloudLinux3 supports both x86 and arm64. | AlibabaCloudLinux3 |
+| Image ID | The system image id used on the provisioned node, if this specified, the image alias will be ignored. | null |
+| Zone ID | Specify the specific region in which the node is deployed (e.g., cn-beijing-a, cn-beijing-c) to support multi-zone inputs to enhance disaster recovery or meet compliance requirements. | all available zones |
+| System Disk Size | Default 20GiB, user-adjustable on demand, example stays at default. | 20GiB |
+| System Disk Categories | Each provisioned node's system disk categories, the available category with the cheapest price will be selected. | cloud, cloud_ssd, cloud_efficiency, cloud_essd, cloud_auto, cloud_essd_entry |
+| Min CPU | Minimum number of CPU cores per node. 0 = unlimited. When set > 0, allocated cores must meet or exceed this value. | 0 (Unlimited) |
+| Min Memory | Minimum memory size (MiB) per node. 0 = unlimited. When set >0, allocated memory must meet or exceed this value. | 0 (Unlimited) |
+| Max CPU | Maximum number of CPU cores per node. 0 = unlimited. When set > 0, allocated cores must be less than this value. | 0 (Unlimited) |
+| Max Memory | Maximum memory size (MiB) per node. 0 = unlimited. When set >0, allocated memory must be less than this value. | 0 (Unlimited) |
+| Enable GPU Node Provision | Enable GPU node provisioning and specify GPU instance family, minimum number of graphics cards and graphics memory requirements. | Disabled |
+| GPU Instance Family | Supports specifying instance types (e.g., ecs.gn5i-c2g1, ecs.gn7i-c8g1) and allows multiple choices (comma-separated) for matching scenarios with different computational requirements. | All GPU instance families |
+| Min Graphic Cards | Limit the number of GPU cards in a single node. | 0 (Unlimited) |
+| Min Graphic Memory | Limit the minimum graphics memory size (MiB) in a single node. | 0 (Unlimited) |
+
+# 4. Example Configuration
+
+## 4.1 Default rebalance effect
+
+> 💡 Architecture Description
+>
+> Differences in the rebalancing effect of the system during the initial deployment phase (when only cloudpilot-agent is installed) versus the full optimization environment (when all components are enabled) arise from:
+> - **Component dependency**: full optimization capability requires loading of supporting components such as cloudpilot-optimizer, cloudpilot-webhook, etc.
+> - **Functionality evolution**: the basic version of the agent only provides monitoring capabilities, and optimization activates advanced functional modules such as smart scheduling.
+>
+> The following is an example of how the agent can be optimized.
+> It is recommended to validate the configuration by simulating the scheduling function before going live.
+
+![default_rebalance](./img/default_rebalance.png)
+
+## 4.2 Configuring the rebalance effect
+
+Instance Family: ecs.c6, ecs.c6a, ecs.c7, ecs.c7a
+
+> Select the instance type that better suits your business, and visit https://spot.cloudpilot.ai for a list of instance types.
+
+![config](./img/config.png)
+
+As you can see, the rebalance effect has changed, the instance type has changed from the cheap ecs.e-c1m2.large and ecs.t5-lc2m1.large to the configured type ecs.c6.large, which is more suitable for the user's business scenarios, but the cost may also rise.
+
+![modify_rebalance](./img/modify_rebalance.png)
+
+This is an example, no actual changes are triggered, it is presented as a simulated dispatch. However, when updating these configurations on a cluster that has already been rebalanced, the cluster will automatically be rescheduled, so care should be taken to avoid disrupting business by modifying the configurations here.
+
+---
+
+This document describes in detail the configuration options and usage of Node Template Configuration, covering dynamic resource allocation for general purpose compute nodes and GPU nodes, instance type selection, memory and CPU limits, and more. By configuring these parameters appropriately, you can optimize system performance, reduce costs, and increase reliability.
+
+In actual applications, please adjust the configurations flexibly according to business requirements and refer to the examples for verification.
+
+For further assistance, please visit the official CloudPilot documentation or contact the technical support team. Thank you for using CloudPilot!
