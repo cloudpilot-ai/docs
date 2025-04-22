@@ -1,0 +1,64 @@
+---
+title: Best Practices for Ensuring Service Availability with AWS EKS and T-Series Instances
+---
+
+# Best Practices for Ensuring Service Availability with AWS EKS and T-Series Instances
+
+This document provides guidelines to ensure the smooth deployment and operation of services in an AWS EKS environment. It specifically addresses the challenges when using T-series instances, which offer burstable performance. These instances can be cost-effective but may not be suitable for workloads with high and consistent CPU utilization. By following these practices, you can avoid performance degradation and ensure that your services run reliably.
+
+## Key Considerations for T-Series Instances in AWS EKS
+
+### CPU Credit Mechanism
+
+Burstable performance instances, like the T-series in AWS, are designed for workloads that generally require low baseline CPU usage but may occasionally need short bursts of high performance. The CPU performance of these instances is managed through a CPU credit system, which dynamically adjusts the CPU capacity based on accumulated or consumed credits.
+
+Under normal conditions, burstable performance instances can maintain a baseline CPU performance level, which is the minimum computational capacity provided continuously. If the instance's load remains below the baseline performance, it accumulates CPU credits, which can be used when the CPU load exceeds the baseline. However, once the CPU credits are exhausted, the instance’s computational capacity is throttled back to the baseline level, significantly impacting the execution of tasks that require sustained high CPU performance.
+
+- **CPU Credit Accumulation**: Burstable performance instances accumulate CPU credits at a fixed rate, which is determined by the instance type’s baseline performance. For instance, if an instance operates at 5% baseline performance, it will accumulate CPU credits when its actual CPU usage is below that baseline.
+  - Example: When CPU usage is below the baseline, the excess CPU resources are converted into CPU credits for future bursts.
+
+- **CPU Credit Consumption**: The rate at which CPU credits are consumed depends on the difference between the actual CPU load and the baseline performance. The formula for calculating credit consumption is:
+  $$\text{Credit Consumption} = (\text{Actual vCPU Usage} - \text{Baseline Performance}) \times \text{vCPU Count} \times \text{Runtime (minutes)}$$
+  - If the CPU usage equals the baseline, no credits are consumed, and the credit balance remains unchanged.
+  - If the CPU usage exceeds the baseline, credits are consumed according to the formula.
+
+- **Performance Constraints**:
+  - When the CPU credits are exhausted, the instance's performance is limited. In constrained performance scenarios, the instance may be throttled down to as low as 0.1 vCPU (the minimum performance level).
+  - In the absence of performance constraints, if the CPU credits are exhausted, additional charges may apply. For detailed billing rules, refer to the respective AWS documentation.
+
+Let’s take the instance type with 2 vCPUs and a baseline performance of 5%. This instance would accumulate 6 CPU credits per hour (calculated as 2 vCPUs * 5% * 60 minutes).
+
+According to AWS documentation, one CPU credit corresponds to 1 vCPU running for 1 minute. So, for the instance, if the service starts and immediately runs at full capacity (i.e., uses both vCPUs continuously), it would consume all 6 CPU credits in just 3 minutes. After the credits are exhausted, the instance will be throttled to 0.1 vCPU, significantly affecting performance.
+
+One of the key issues with burstable instances is that CPU credits only accumulate when the actual CPU usage is below the baseline. Therefore, if a service is running at or near the baseline CPU performance (e.g., 5% in this case), no credits will be accumulated, even though the instance is using CPU resources. As a result, services that consistently run at this level of CPU utilization will never accumulate credits, which could cause significant issues if the service experiences a sudden spike in demand or needs to burst beyond the baseline.
+
+### Burstable Performance Instances
+T-series instances, such as `t3` and `t4g`, are designed for workloads that typically use low CPU resources but occasionally require bursts of higher performance. The performance of these instances is managed through a CPU credit system, where CPU credits are accumulated during periods of low CPU usage and consumed when CPU demand exceeds the baseline performance level.
+
+### CPU Credit System and Performance Limitations
+T-series instances accumulate CPU credits at a fixed rate, determined by the instance's baseline CPU performance. When the instance's CPU usage exceeds the baseline, it consumes CPU credits to temporarily boost its performance. However, once the credits are exhausted, the CPU performance is throttled back to the baseline, potentially leading to performance issues for tasks that require high CPU resources. It's important to monitor CPU usage and understand the implications of credit exhaustion.
+
+## How it Works
+
+### Detecting High CPU Usage and Instance Suitability
+In an AWS EKS environment, it’s crucial to monitor the CPU utilization of nodes before scheduling workloads. If an instance is running on a T-series instance and its CPU utilization exceeds the baseline threshold, it could be unsuitable for tasks requiring sustained high CPU performance.
+
+To detect high CPU usage, you can use either the AWS Metrics API (if available) or Kubernetes monitoring tools like `Kubelet/cAdvisor` to gather data on CPU usage. By calculating the CPU utilization, you can ensure that your service is scheduled on appropriate instances based on its requirements.
+
+### Rebalancing Node Pools and Preventing T-Series Scheduling
+During the **ClusterRebalanceStateApplying** and **ClusterRebalanceStateSuccess** stages, it is essential to inspect the node template and adjust configurations to avoid scheduling high-demand workloads on T-series instances. If the CPU usage exceeds 60%, the system should prevent further scheduling of T-series instances.
+
+For instance, you can define a rule to avoid using T-series instances by updating the node selector configuration:
+```yaml
+NodeSelectorRequirement:
+  Key: "karpenter.k8s.aws/instance-category"
+  Operator: "In"
+  Values: ["t"]
+```
+This configuration ensures that CPU-intensive workloads are not scheduled on T-series instances that cannot handle sustained high CPU loads. CloudPilot AI will automatically adjust the node pool configuration to prevent scheduling on T-series instances when CPU usage exceeds the defined threshold.
+
+### Customizable Policies for Workload Requirements
+You should tailor your policies to meet specific workload requirements. For performance-sensitive applications, it is advisable to entirely disable T-series instances to prevent performance bottlenecks. On the other hand, for less demanding tasks such as certain web applications, T-series instances may still be appropriate. Implementing these custom policies helps you manage instances based on the performance needs of your services.
+
+## Conclusion
+By carefully managing the scheduling of workloads on CloudPilot AI, you can avoid performance issues caused by CPU credit exhaustion. Monitoring CPU usage and adjusting node configurations based on workload requirements ensures that services run smoothly in an AWS EKS environment.

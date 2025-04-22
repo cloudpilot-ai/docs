@@ -42,7 +42,8 @@ export default {
           ecr_auto_create: {},
           monitor_availability: {},
           aws_alb_best_practice: {},
-          aws_zone_id_name_query: {}
+          aws_zone_id_name_query: {},
+          t_series_user_guide: {}
         }
       }
     }
