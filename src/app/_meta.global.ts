@@ -28,7 +28,8 @@ export default {
       },
       rebalance_configuration: {
         items: {
-          workload_config: {}
+          workload_config: {},
+          spot_instance_diversity: {}
         }
       },
       security: {
