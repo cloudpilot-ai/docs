@@ -29,7 +29,8 @@ export default {
       },
       rebalance_configuration: {
         items: {
-          workload_config: {}
+          workload_config: {},
+          node_pod_evictor: {}
         }
       },
       security: {
