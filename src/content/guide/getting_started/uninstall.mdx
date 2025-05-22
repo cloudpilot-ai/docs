@@ -60,3 +60,39 @@ Once eviction is complete, nodes previously managed by CloudPilot AI will be rem
 After verifying all nodes have been successfully evicted and the cluster remains stable, proceed to remove all CloudPilot AI related components.
 
 ![uninstall-5](./img/uninstall_5.png)
+
+## More
+
+### Troubleshooting Improper Uninstallation
+**Symptoms**:
+- Pod creation failures.
+- NodeClaim operations suspended (nodes cannot be created/deleted).
+
+**Cause**: Direct deletion of the `cloudpilot` namespace without following proper procedures.
+
+**Resolution**:
+1. Remove the orphaned webhook configuration:
+   ```bash
+   kubectl delete mutatingwebhookconfigurations.admissionregistration.k8s.io cloudpilot-webhook
+   ```
+2. Reinstall the CloudPilot agent using the script from the **Add cluster** button:
+   ```bash
+   export CLOUDPILOT_API_KEY=xxx
+   export CLOUD_PROVIDER=aws
+   curl --silent "https://onboard.cloudpilot.ai/manifest/v1.10.0/phase1/cloudpilot-agent.yaml" | envsubst | kubectl apply -f -
+   ```
+3. Reinstall CloudPilot fully using the **Start Saving** button script.
+   ```bash
+   export CLOUDPILOT_API_KEY=xxx
+   export CLOUD_PROVIDER=aws
+   export CLUSTER_ID=xxx
+   export CLUSTER_NAME=xxx
+   export CLUSTER_REGION=us-east-2
+   export AWS_PARTITION=aws
+   curl --silent "https://onboard.cloudpilot.ai/manifest/v1.10.0/eks/phase2/install.sh" | bash
+   ```
+4. Re-run the normal uninstallation process.
+
+---
+
+If issues persist, contact CloudPilot Technical Support immediately for assistance.
