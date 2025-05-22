@@ -1,0 +1,56 @@
+# Optimizing Cluster Resilience with Spot Instance Diversity Management
+**A technical guide for DevOps and SRE teams**
+
+This document outlines a feature designed to enhance Kubernetes cluster resilience and efficiency when leveraging Spot instances. By intelligently distributing workloads across heterogeneous instance types, the system reduces operational risks while maintaining cost-effectiveness.
+
+---
+
+## Key Features
+
+### Automated Instance Type Diversification
+Dynamically distribute workloads across multiple Spot instance types using a decentralized scheduling strategy. This reduces dependency risk by ensuring that no single instance type is overloaded.
+
+### Operational Risk Mitigation
+Reduces service disruptions caused by Spot instance interruptions. By spreading workloads across diverse instance families (e.g., `m5`, `t3`, `c5`), the cluster maintains elasticity even during sudden Spot market volatility.
+
+### Resource Utilization Optimization
+Improves scheduling success rates through real-time analysis of instance availability zones and pricing trends. The system prioritizes underutilized instance types while maintaining workload compatibility.
+
+### Cost-Stability Balance
+Achieves an equilibrium between Spot instance cost savings and workload reliability. The scheduler adapts to real-time market conditions without requiring manual intervention.
+
+---
+
+## How It Works
+
+1. **Initial State Analysis**
+   The system evaluates current cluster composition. For example:
+   | Instance Type | Allocation |
+   |---------------|------------|
+   | `m5.large`    | 60%        |
+   | `t3.medium`   | 20%        |
+   | `c5.xlarge`   | 20%        |
+
+2. **Gradual Redistribution**
+   New workloads are redirected toward underrepresented instance types. Over time, the distribution evolves toward:
+   | Instance Type | Allocation |
+   |---------------|------------|
+   | `m5.large`    | 40%        |
+   | `t3.medium`   | 30%        |
+   | `c5.xlarge`   | 30%        |
+
+3. **Real-Time Adaptation**
+   The scheduler continuously monitors:
+   - Availability zone capacity
+   - Spot price fluctuations
+   - Instance termination rate history
+   Adjustments occur incrementally to maintain workload stability.
+
+---
+
+## Implementation Notes
+
+- **Manual Activation Required**: This feature must be configured by the CloudPilot AI engineering team. Contact support@cloudpilot.ai for activation.
+- **Limitations**: Actual performance depends on real-time Spot market conditions and regional instance availability.
+
+For configuration assistance or advanced use cases, consult the CloudPilot AI technical team.
