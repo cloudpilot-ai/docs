@@ -2,45 +2,35 @@
 title: Deploy CloudPilot AI with Existing RAM User
 ---
 
-import { Callout } from 'nextra/components'
+# Deploy CloudPilot AI with an Existing RAM User
 
-# Deploy CloudPilot AI with Existing RAM User
+This guide explains how to deploy CloudPilot AI on Alibaba Cloud using an existing RAM user instead of relying on the default method, which uses local Access Key (AK) and Secret Key (SK) credentials. This approach allows you to follow the principle of least privilege by assigning only the necessary permissions.
 
-By default, CloudPilot AI will use the Alibaba Cloud user's Access Key (AK) and Secret Key (SK) from the local environment to tag Security Groups and vSwitches. It will also retrieve the necessary ACK cluster information and create RAM users for CloudPilot AI components to perform ECS operations.
+> **Note:** This guide currently supports only Alibaba Cloud.
 
-However, in some cases, you may prefer not to use the default behavior and instead deploy CloudPilot AI with an existing RAM user that has the correct permissions.
+## Prerequisites
 
-In such situations, you can follow this tutorial to deploy CloudPilot AI using your existing RAM user.
+* An Alibaba Cloud account with RAM access.
+* Admin privileges to create and manage RAM users and policies.
+* Aliyun CLI installed and configured on your local machine.
+* Access to your target ACK cluster name.
 
-<Callout type="info">
-Currently, the tutorial only supports `AlibabaCloud`.
-</Callout> 
+## Step 1: Create a RAM User Manually
 
-## Step 1. Manually Create a AlibabaCloud RAM User
+Navigate to the [RAM User Console](https://ram.console.aliyun.com/users) and create a new RAM user.
 
-If you want to deploy CloudPilot AI with minimal permissions, you need to manually create the required user and grant the necessary permissions.
+* **Username Format:** `cloudpilot-<your cluster name>` (e.g., `cloudpilot-test-cluster`)
+* **Access Type:** Enable “Programmatic Access” with a permanent AccessKey.
 
-Visit this [link](https://ram.console.aliyun.com/users) to create a new RAM User.
+Save the generated Access Key ID and Secret Key securely.
 
-![create-alibabacloud-ram-user-1](./img/create-alibabacloud-ram-user-1.png)
+## Step 2: Attach Required Permissions
 
-Then, create a new RAM User, and your username must follow this format: `cloudpilot-<your cluster name>` (e.g., `cloudpilot-test-cluster`), and you need to check `Using permanent AccessKey to access`.
+Navigate to the [Policy Management Console](https://ram.console.aliyun.com/policies) and create two policies:
 
-![create-alibabacloud-ram-user-2](./img/create-alibabacloud-ram-user-2.png)
+### a. Deployment Policy
 
-You must click the following three buttons in order and properly save the copied Access Key and Secret Key.
-
-![create-alibabacloud-ram-user-3](./img/create-alibabacloud-ram-user-3.png)
-
-## Step 2. Add the Required Permissions for the New User
-
-Visit this [page](https://ram.console.aliyun.com/policies) to create Policies.
-
-![create-alibabacloud-ram-policies-1](./img/create-alibabacloud-ram-policies-1.png)
-
-![create-alibabacloud-ram-policies-2](./img/create-alibabacloud-ram-policies-2.png)
-
-Please replace the JSON content with the following permission settings:
+Create a policy named `cloudpilot-<your cluster name>-deploy` with the following JSON:
 
 ```json
 {
@@ -65,13 +55,15 @@ Please replace the JSON content with the following permission settings:
 }
 ```
 
-![create-alibabacloud-ram-policies-3](./img/create-alibabacloud-ram-policies-3.png)
+### b. Runtime Policy
 
-The name of the Policies should follow this format: `cloudpilot-<your cluster name>-deploy`.
+Refer to the [permissions reference](../security/permissions_required.mdx#privileges-needed-with-alibabacloud) and create a policy named `cloudpilot-<your cluster name>`.
 
-Next, you need to create the required permissions for CloudPilot AI runtime. You can refer to this [article](../security/permissions_required.mdx#privileges-needed-with-alibabacloud) for the JSON content, and the name of this Policy should follow this format: `cloudpilot-<your cluster name>`.
+### Granting Permissions
 
-You can use the following command to query your cluster `INTERNAL_CLUSTER_ID`:
+Go to the [Permissions Console](https://ram.console.aliyun.com/permissions) and assign both policies to the newly created RAM user.
+
+To retrieve your `INTERNAL_CLUSTER_ID`, use:
 
 ```sh
 export CLUSTER_NAME=<your cluster name>
@@ -84,17 +76,20 @@ After creation, visit [this page](https://ram.console.aliyun.com/permissions) to
 
 ![grant-alibabacloud-ram-policies](./img/grant-alibabacloud-ram-policies.png)
 
-## 3. Configure Aliyun CLI using the minimal permission user.
 
-Use the Access Key and Secret Key you just saved to log in to Aliyun CLI, and use this user to deploy CloudPilot AI to your cluster.
+## Step 3: Configure Aliyun CLI
+
+Use the Access Key ID and Secret Key from the new RAM user:
 
 ```sh
 aliyun configure
 ```
 
-## 4. Deploy CloudPilot AI
+Input the Access Key ID, Secret Key, and default region when prompted.
 
-Before deploying Phase 2, you must enter the following content to avoid permission issues.
+## Step 4: Deploy CloudPilot AI
+
+Set environment variables to indicate that you're managing credentials manually:
 
 ```sh
 export SELF_MANAGE_USER=true
@@ -102,12 +97,12 @@ export ACCESS_KEY_ID=<your access key>
 export ACCESS_KEY_SECRET=<your secret key>
 ```
 
-Then, follow the steps provided by the Console to install Phase 2.
+Proceed with Phase 2 installation as directed by the CloudPilot AI Console.
 
-<Callout type="info">
-Note: When uninstalling CloudPilot AI, if you deployed it using this method, you need to enter the following command before uninstallation.
+## More
+
+> **Note:** If you uninstall CloudPilot AI later, make sure to set the `SELF_MANAGE_USER` flag again to avoid permission issues:
 
 ```sh
 export SELF_MANAGE_USER=true
 ```
-</Callout>
