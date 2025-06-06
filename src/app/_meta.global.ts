@@ -30,7 +30,8 @@ export default {
       rebalance_configuration: {
         items: {
           workload_config: {},
-          node_pod_evictor: {}
+          node_pod_evictor: {},
+          spot_instance_diversity: {}
         }
       },
       security: {
