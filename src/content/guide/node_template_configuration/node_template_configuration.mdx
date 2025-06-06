@@ -1,0 +1,49 @@
+# Node Template Configuration Guide
+
+Node Template Configuration enables customization of node settings to optimize performance, cost-effectiveness, and reliability. This guide covers key parameters for AWS and AlibabaCloud node provisioning, including instance types, resource allocation, and GPU configurations. By adjusting these settings, you can tailor infrastructure to meet specific workload demands while balancing cost and efficiency.
+
+---
+
+## AWS Node Provision Settings
+The following parameters are available for AWS node provisioning:
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| **Instance Family** | Specifies instance types (e.g., `t3`, `m5`). Multiple comma-separated values are allowed. | All instance families |
+| **Instance Arch** | Cluster architecture (supports `amd64`, `arm64`). Automatically detected or manually configured. | amd64 |
+| **Capacity Type** | Node purchase option: `on-demand`, `spot`, or both. | spot, on-demand |
+| **Instance Tags** | Key-value tags for resource management (e.g., `cloudpilot.ai/managed=true`). | cloudpilot.ai/managed=true |
+| **Zone ID** | Deployment zone (e.g., `us-west-1a`). Multiple zones enhance disaster recovery. | All available zones |
+| **System Disk Size** | OS disk size (adjustable). | 20GiB |
+| **Extra CPU/Memory Allocation** | Reserved CPU (mCore) or memory (MiB) for burst tasks. | 0 (disabled) |
+| **Min/Max CPU** | Minimum/maximum CPU cores per node (`0` = unlimited). | 0 (Unlimited) |
+| **Min/Max Memory** | Minimum/maximum memory (MiB) per node (`0` = unlimited). | 0 (Unlimited) |
+| **Enable GPU Node Provision** | Activates GPU node provisioning. | Disabled |
+| **GPU Instance Family** | GPU instance types (e.g., `p4d`, `p4`). Multiple choices allowed. | All GPU families |
+| **Min Graphic Cards/Memory** | Minimum GPU cards or memory (MiB) per node. | 0 (Unlimited) |
+
+---
+
+## AlibabaCloud Node Provision Settings
+The following parameters are available for AlibabaCloud node provisioning:
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| **Instance Family** | Specifies instance types (e.g., `ecs.g5`, `ecs.r6`). Multiple comma-separated values allowed. | All instance families |
+| **Instance Arch** | Cluster architecture (supports `amd64`, `arm64`). Automatically detected or manually configured. | amd64 |
+| **Capacity Type** | Node purchase option: `on-demand`, `spot`, or both. | spot, on-demand |
+| **Instance Tags** | Key-value tags for resource management (e.g., `cloudpilot.ai/managed=true`). | cloudpilot.ai/managed=true |
+| **Image Alias** | OS image (supports `ContainerOS` for x86, `AlibabaCloudLinux3` for x86/arm64). | AlibabaCloudLinux3 |
+| **Image ID** | Custom image ID (overrides `Image Alias` if specified). | null |
+| **Zone ID** | Deployment zone (e.g., `cn-beijing-a`). Multiple zones supported. | All available zones |
+| **System Disk Size** | OS disk size (adjustable). | 20GiB |
+| **System Disk Categories** | Disk types (e.g., `cloud_ssd`, `cloud_essd`). Cheapest available is selected. | cloud, cloud_ssd, cloud_efficiency, cloud_essd, cloud_auto, cloud_essd_entry |
+| **Min/Max CPU** | Minimum/maximum CPU cores per node (`0` = unlimited). | 0 (Unlimited) |
+| **Min/Max Memory** | Minimum/maximum memory (MiB) per node (`0` = unlimited). | 0 (Unlimited) |
+| **Enable GPU Node Provision** | Activates GPU node provisioning. | Disabled |
+| **GPU Instance Family** | GPU instance types (e.g., `ecs.gn5i-c2g1`, `ecs.gn7i-c8g1`). Multiple choices allowed. | All GPU families |
+| **Min Graphic Cards/Memory** | Minimum GPU cards or memory (MiB) per node. | 0 (Unlimited) |
+
+---
+
+Adjust configurations based on workload requirements and validate changes in a staging environment. For further assistance, consult the [CloudPilot Documentation](https://docs.cloudpilot.ai) or contact support.
