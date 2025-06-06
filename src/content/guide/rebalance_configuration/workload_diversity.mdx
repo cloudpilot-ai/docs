@@ -1,0 +1,43 @@
+---
+title: Workload Diversity Guide
+---
+
+# Workload Diversity Guide
+
+This document outlines the design and implementation of a solution for reducing service disruption by diversifying instance types across workloads in your cluster. By configuring workloads to include the `workload.cloudpilot.ai/diversity-instancetype=true` label, you can reduce the probability of simultaneous interruptions by ensuring that your workloads are spread across different instance types.
+
+In our system, we handle two types of diversity:
+
+1. **Different Node Types (Built-in)**
+
+The system supports multiple node types, which are built-in and preconfigured. These nodes are part of the underlying architecture, ensuring varied workloads can be handled efficiently.
+
+2. **Different Instance Types (Controlled via Labels)**
+
+Instance types, on the other hand, are configurable and controlled by labels. By applying different labels, you can manage and allocate instance types based on your specific requirements. This approach gives you flexibility in how resources are provisioned and utilized within the system.
+
+## Key Features
+
+### Instance Type Diversification
+This solution allows Karpenter to assign workloads to different instance types based on the specified label, `workload.cloudpilot.ai/diversity-instancetype=true`. This reduces the risk of simultaneous pod disruptions when nodes are evicted or terminated.
+
+### Optimized Pod Eviction Control
+Through the use of a custom controller, pod eviction logic has been enhanced. This ensures that workloads with the same instance type are not scheduled to the same node, reducing the chances of simultaneous interruptions.
+
+### Webhook Integration
+A webhook component is used to patch the current pod and notify the scheduler, preventing node scheduling to the same instance type. This further helps mitigate the risk of simultaneous pod disruptions.
+
+## How It Works
+
+### Overview
+The core design of this solution is to move the control logic into a dedicated controller. This controller utilizes a webhook component that applies patches to the pod, signaling the scheduler to avoid scheduling workloads on the same node. The logic is focused on minimizing simultaneous pod disruptions by spreading workloads across different instance types.
+
+### Test Setup
+1. **Controller**: The controller evicts pods every 30 seconds if the pod is scheduled on the same node. This simulates the behavior of eviction in the event of node instability or termination.
+
+2. **Node Selection**: The deployment's label selector is configured to force workloads to target the same node, allowing you to verify the eviction process.
+
+### Expected Outcome
+After the controller completes its eviction cycle, pods are successfully scheduled on different instance types, preventing simultaneous node disruptions. The controller will skip further eviction cycles once a pod has been successfully rescheduled.
+
+For configuration assistance or advanced use cases, consult the CloudPilot AI technical team.
