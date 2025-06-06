@@ -4,11 +4,12 @@ title: Permissions Required to Use CloudPilot AI
 
 # Permissions Required to Use CloudPilot AI
 
-The installation process consists of two phases. In the first phase, only an agent is installed, which collects cluster resource-related data using read-only permissions.
+CloudPilot AI installation involves two phases. In the first phase, only the agent is installed, collecting cluster resource-related data using read-only permissions.
 
-## Privileges needed with AWS
+## Privileges Needed with AWS
 
-In the second phase, **CloudPilot AI** will request the following privileges:
+In the second phase, **CloudPilot AI** will request the following privileges to manage and scale your cloud resources:
+
 ```json
 {
     "Statement": [
@@ -152,9 +153,10 @@ In the second phase, **CloudPilot AI** will request the following privileges:
 }
 ```
 
-## Privileges needed with AlibabaCloud
+## Privileges Needed with AlibabaCloud
 
 In the second phase, **CloudPilot AI** will request the following privileges:
+
 ```json
 {
     "Version": "1",
@@ -202,10 +204,11 @@ In the second phase, **CloudPilot AI** will request the following privileges:
 }
 ```
 
-**CloudPilot AI** requires almost the same privileges as the open-source Karpenter, with the addition of permissions related to:
+**CloudPilot AI** requires nearly the same privileges as the open-source Karpenter, with additional permissions related to:
 
 * `AWS/AutoScalingGroup`
 * `AlibabaCloud/ScalingGroup`
 
-All of these are used to optimize existing nodes.
-If you have any questions, please feel free to contact us through our [Slack channel](https://join.slack.com/t/cloudpilotai/shared_invite/zt-36q9wpyol-N2X3izL~HZcf1_QSko6~6Q).
+These permissions help optimize existing nodes.
+
+For further assistance, feel free to reach out to us through our [Slack channel](https://join.slack.com/t/cloudpilotai/shared_invite/zt-36q9wpyol-N2X3izL~HZcf1_QSko6~6Q).

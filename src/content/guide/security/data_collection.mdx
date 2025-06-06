@@ -4,38 +4,56 @@ title: Data Collected by CloudPilot AI
 
 # Data Collected by CloudPilot AI
 
-To ensure the best operational experience while maintaining data security, CloudPilot AI collects only the **minimum necessary and non-sensitive** data. This data is securely stored in CloudPilot AI's private storage system, which is protected by multiple security technologies, including certificate-based authorization.
+CloudPilot AI collects only the **minimal necessary** and **non-sensitive** data to ensure optimal performance while maintaining strict data security protocols. All collected data is stored securely in CloudPilot AI’s private storage system, protected by various security technologies, including certificate-based authorization.
 
 ## Data Details
 
-All data is transmitted to CloudPilot AI's service side using TLS encryption and is authorized via your private API key.
+Data is transmitted to CloudPilot AI's service using TLS encryption and is authorized via your private API key.
 
 ### Cluster Information
-* **Cloud Provider**: For example, `AWS`, `GCP`.
-* **Cluster Name**: For example, `aws-eks-cluster`.
-* **Cluster Version**: For example, `v1.31.5-eks-5d632ec`.
-* **Cluster Region**: For example, `us-east-2`.
-* **Installed CloudPilot AI Component Version**: For example, `v1.9.5`.
+
+CloudPilot AI collects the following cluster-related details:
+
+| Parameter                           | Description                                                   | Default |
+| ----------------------------------- | ------------------------------------------------------------- | ------- |
+| **Cloud Provider**                  | Cloud provider (e.g., `AWS`, `GCP`)                           | N/A     |
+| **Cluster Name**                    | Name of the cluster (e.g., `aws-eks-cluster`)                 | N/A     |
+| **Cluster Version**                 | Version of the cluster (e.g., `v1.31.5-eks-5d632ec`)          | N/A     |
+| **Cluster Region**                  | Region of the cluster (e.g., `us-east-2`)                     | N/A     |
+| **Installed CloudPilot AI Version** | Version of CloudPilot AI component installed (e.g., `v1.9.5`) | N/A     |
 
 ### Node Information
-* **Node Name**: For example, `ip-10-0-2-10.us-east-2.compute.internal`. You can retrieve node information by running the following command:
-  ```bash
-  $ kubectl get node -A
-  NAME                                      STATUS   ROLES    AGE   VERSION
-  ip-10-0-2-10.us-east-2.compute.internal   Ready    <none>   92m   v1.31.5-eks-5d632ec
-  ip-10-0-43-157.us-east-2.compute.internal Ready    <none>   92m   v1.31.5-eks-5d632ec
-  ```
-* **Instance Type**: For example, `t2.micro`.
-* **Pricing Model**: For example, `on-demand` or `spot`.
-* **Zone**: For example, `us-east-2a`.
-* **Spot Interruption Event**: For example, in zone `us-east-2a`, the spot instance `ip-10-0-2-10.us-east-2.compute.internal` (type `t3.micro`) was interrupted at `2023-06-28 16:00:00`.
+
+CloudPilot AI gathers essential node details, including:
+
+| Parameter                   | Description                                                                                                                                        | Default |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| **Node Name**               | Name of the node (e.g., `ip-10-0-2-10.us-east-2.compute.internal`)                                                                                 | N/A     |
+| **Instance Type**           | Instance type (e.g., `t2.micro`)                                                                                                                   | N/A     |
+| **Pricing Model**           | Pricing model (e.g., `on-demand` or `spot`)                                                                                                        | N/A     |
+| **Zone**                    | Availability zone (e.g., `us-east-2a`)                                                                                                             | N/A     |
+| **Spot Interruption Event** | Information about spot instance interruptions (e.g., `spot instance ip-10-0-2-10.us-east-2.compute.internal` interrupted at `2023-06-28 16:00:00`) | N/A     |
+
+You can retrieve node information using the following command:
+
+```bash
+$ kubectl get node -A
+NAME                                      STATUS   ROLES    AGE   VERSION
+ip-10-0-2-10.us-east-2.compute.internal   Ready    <none>   92m   v1.31.5-eks-5d632ec
+ip-10-0-43-157.us-east-2.compute.internal Ready    <none>   92m   v1.31.5-eks-5d632ec
+```
 
 ### Workload Information
-* **Workload Type**: For example, `Deployment` or `StatefulSet`.
-* **Workload Name**: For example, `redis`, `nginx-web`.
-* **Workload Namespace**: For example, `default`.
-* **Workload Replicas**: For example, `3`.
+
+CloudPilot AI tracks the following workload data:
+
+| Parameter              | Description                                          | Default |
+| ---------------------- | ---------------------------------------------------- | ------- |
+| **Workload Type**      | Type of workload (e.g., `Deployment`, `StatefulSet`) | N/A     |
+| **Workload Name**      | Name of the workload (e.g., `redis`, `nginx-web`)    | N/A     |
+| **Workload Namespace** | Namespace of the workload (e.g., `default`)          | N/A     |
+| **Workload Replicas**  | Number of replicas for the workload (e.g., `3`)      | N/A     |
 
 ## Commitment to Privacy and Security
 
-CloudPilot AI is committed to upholding the highest standards of data protection and privacy. We continuously enhance our security measures to align with industry best practices and regulatory requirements, ensuring that your data remains safe and confidential.
+CloudPilot AI is dedicated to maintaining the highest standards of data privacy and security. We continually improve our security protocols to stay aligned with industry best practices and regulatory requirements, ensuring that your data is protected and confidential at all times.
