@@ -1,0 +1,39 @@
+---
+title: Log Collection for Troubleshooting
+---
+
+# Log Collection for Troubleshooting
+This document provides a procedure to collect CloudPilot component logs from a Kubernetes cluster. The logs contain operational metrics and diagnostic information for troubleshooting CloudPilot-specific issues. These logs do not include tenant data or sensitive system information.
+
+## Log Collection Process
+### How to Collect CloudPilot Logs
+You need to extract CloudPilot component logs to diagnose system failures.
+
+1. **Connect to the target Kubernetes cluster** with administrative privileges.
+2. **Run the following command**:
+   ```bash
+   kubectl -n cloudpilot port-forward svc/cloudpilot-workload-log-collector-svc 8080:8080 & PID=$!; timeout=10; found=0; while [ $timeout -gt 0 ]; do if nc -z -w 1 localhost 8080 2>/dev/null; then found=1; break; fi; sleep 1; ((timeout--)); done; [ $found -eq 1 ] && curl -s http://localhost:8080/logs > "logs_$(date +%Y%m%d%H%M%S).tgz" || echo "Timeout"; kill $PID 2>/dev/null; wait $PID 2>/dev/null
+   ```
+
+**Command breakdown**:
+- Establishes a port-forward tunnel to the `cloudpilot-workload-log-collector-svc` service.
+- Waits up to 10 seconds for the service endpoint to become reachable.
+- Uses `curl` to fetch logs via the exposed HTTP endpoint.
+- Saves logs as a timestamped `.tgz` file (e.g., `logs_20231015143045.tgz`).
+- Gracefully terminates the background port-forward process.
+
+## Security Considerations
+### Are the Collected Logs Safe to Share?
+The logs contain operational metadata (e.g., pod statuses, API call traces) but exclude:
+- Tenant workload data
+- Secrets or credentials
+- Network traffic payloads
+
+**Action required**:
+1. Validate logs with your security team before sharing.
+2. Transmit logs to CloudPilot support via encrypted channels.
+
+If you encounter issues during log collection, verify:
+- Your Kubernetes context is set to the correct cluster.
+- The `cloudpilot-workload-log-collector-svc` service is running (`kubectl -n cloudpilot get svc`).
+- Your user permissions allow port-forwarding and pod access in the `cloudpilot` namespace.
