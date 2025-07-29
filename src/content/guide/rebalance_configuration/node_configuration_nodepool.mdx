@@ -1,6 +1,10 @@
-# Node Template Configuration Guide
+---
+title: Node Pool Configuration Guide
+---
 
-Node Template Configuration enables customization of node settings to optimize performance, cost-effectiveness, and reliability. This guide covers key parameters for AWS and AlibabaCloud node provisioning, including instance types, resource allocation, and GPU configurations. By adjusting these settings, you can tailor infrastructure to meet specific workload demands while balancing cost and efficiency.
+# Node Pool Configuration Guide
+
+Node Pool Configuration enables multiple node pools and customized node settings to optimize performance, cost-effectiveness, and reliability. This guide covers key parameters for AWS and AlibabaCloud node provisioning, including instance types, resource allocation, and GPU configurations. By configuring these settings across multiple node pools, you can tailor your infrastructure to meet specific workload demands while balancing cost and efficiency.
 
 ---
 
@@ -9,6 +13,9 @@ The following parameters are available for AWS node provisioning:
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| **Enable** | When disabled, this node pool will not provision any new nodes. | true |
+| **Node Class** | Select the node class to use for this node pool. | cloudpilot |
+| **Provision Priority** | The priority of this node pool. | 2 |
 | **Instance Family** | Specifies instance types (e.g., `t3`, `m5`). Multiple comma-separated values are allowed. | All instance families |
 | **Instance Arch** | Cluster architecture (supports `amd64`, `arm64`). Automatically detected or manually configured. | amd64 |
 | **Capacity Type** | Node purchase option: `on-demand`, `spot`, or both. | spot, on-demand |
@@ -29,6 +36,9 @@ The following parameters are available for AlibabaCloud node provisioning:
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
+| **Enable** | When disabled, this node pool will not provision any new nodes. | true |
+| **Node Class** | Select the node class to use for this node pool. | cloudpilot |
+| **Provision Priority** | The priority of this node pool. | 2 |
 | **Instance Family** | Specifies instance types (e.g., `ecs.g5`, `ecs.r6`). Multiple comma-separated values allowed. | All instance families |
 | **Instance Arch** | Cluster architecture (supports `amd64`, `arm64`). Automatically detected or manually configured. | amd64 |
 | **Capacity Type** | Node purchase option: `on-demand`, `spot`, or both. | spot, on-demand |
