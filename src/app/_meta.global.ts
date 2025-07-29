@@ -26,7 +26,8 @@ export default {
           workload_config: {},
           workload_diversity: {},
           keep_part_nodes: {},
-          node_template_configuration: {},
+          node_configuration: {},
+          node_configuration_nodepool: {},
           spot_instance_diversity: {}
         }
       },
