@@ -53,7 +53,8 @@ export default {
           upgrade_guide: {},
           uninstall: {},
           poc_process: {},
-          get_apikeys: {}
+          get_apikeys: {},
+          karpenter_events: {}
         }
       },
       concepts: {
