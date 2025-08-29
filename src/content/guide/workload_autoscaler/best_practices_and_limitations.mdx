@@ -1,0 +1,62 @@
+---
+title: Best Practices and Limitations
+---
+
+# Best Practices and Limitations
+
+This document describes best practices for the Workload Autoscaler and the limitations of the **InPlace Update Mode**.
+
+## InPlace Update Mode Limitations
+
+### Cluster version requirement
+
+Your Kubernetes cluster version must be **1.33 or higher**.
+
+### Memory limits (decrease vs. increase)
+
+**Decreasing Memory Limit is not allowed in place.**
+In InPlace mode, the Workload Autoscaler will **not** proactively reduce a Pod’s Memory Limit. Memory Limits are only reassigned when the Pod is **recreated normally**.
+
+**Increasing Memory Limit may require container restarts.**
+If a workload (e.g., **Java** applications) cannot dynamically adapt to Memory Limit changes, configure the container’s **`ResizePolicy`** so that the **memory** resource is set to **`RestartContainer`**. Attempts to increase the Memory Limit will then automatically **restart** the corresponding container to apply the new limit.
+
+**Notes**
+- By default, the Workload Autoscaler sets the **ResizePolicy** for **all resources** of **all containers** to **`NotRequired`**.
+- If you have **manually configured** a container’s ResizePolicy for any resource, the Workload Autoscaler **will not overwrite** it. For details, see the
+  [Kubernetes documentation example](https://kubernetes.io/docs/tasks/configure-pod-container/resize-container-resources/#example-1-resizing-cpu-without-restart).
+
+### Pod QoS class must not change
+
+A Pod’s QoS class is determined at creation time (one of **Guaranteed**, **Burstable**, or **BestEffort**). InPlace updates must **not** cause a change in QoS class:
+
+- **BestEffort Pods** (no CPU/memory requests or limits at startup): You **cannot** add any CPU/memory requests or limits, because adding requests would convert the Pod to **Burstable**, which is **not allowed** in InPlace updates. Therefore, BestEffort Pods **cannot** use in-place vertical scaling. If you need scaling, specify requests at creation time so the Pod is at least Burstable.
+- **Guaranteed Pods** (for every container, CPU and memory **requests equal limits**): After InPlace adjustments, each container must still satisfy **`requests == limits`**. To increase or decrease CPU/memory, you must update **both** request **and** limit to the **same** value. For example, going from 2 CPU to 3 CPU requires setting **both** request and limit to 3. You cannot change only one of them, or the Pod will no longer be Guaranteed.
+- **Burstable Pods** (have requests, but not all equal to limits, or some containers may have no requests): You may adjust CPU/memory, but **must not** turn the Pod into Guaranteed. It is forbidden to make **both CPU and memory requests equal to their limits** across all containers after the update; otherwise the Pod would become Guaranteed. You also must not clear all requests and turn the Pod into BestEffort. In short, the Pod **must keep its original QoS class** unchanged.
+
+If an InPlace operation would violate any of the above QoS rules, the Workload Autoscaler **falls back to `ReCreate` mode** and explicitly recreates (re-schedules) the target Pod.
+
+> **Note:** Such fallback events are expected to occur only when a Workload is first configured with a AutoscalingPolicy or when certain related configurations of the AutoscalingPolicy are modified. They should not occur during normal operation.
+
+### `PodResizePending` during scale-up
+
+When scaling up a Pod, you may see **`PodResizePending`** condition of the pod if the node hosting the Pod does **not** have enough remaining resources to satisfy the new requests.
+
+In this scenario, the Workload Autoscaler will **fall back to `ReCreate` mode** to recreate/re-schedule the Pod.
+
+### Coexisting with HPA
+
+Using the Workload Autoscaler **together** with **HPA (Horizontal Pod Autoscaler)** can produce unexpected behavior. If you need both, configure them to manage **different resources**—for example, let HPA scale by **CPU usage**, while the Workload Autoscaler adjusts only **memory**.
+
+## Best Practices
+
+### Specify resource requests for all containers
+
+Whenever possible, set **resource requests** for every container in all workloads. These do **not** need to be perfectly precise.
+
+### Prefer not to set limits
+
+Avoid specifying **limits** whenever feasible. Instead, set **requests** to place Pods in the **Burstable** QoS class.
+
+### Set a restart policy for workloads that cannot adapt memory InPlace
+
+For workloads like **Java** that cannot adjust to Memory Limit changes dynamically, manually configure the container’s **`ResizePolicy`** so that when the InPlace update modifies the Memory Limit, the **container will restart** to apply the new limit (set memory ResizePolicy to **`RestartContainer`**).

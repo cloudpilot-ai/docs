@@ -32,6 +32,14 @@ export default {
           disable_workload_uploading: {}
         }
       },
+      workload_autoscaler: {
+        items: {
+          installation: {},
+          autoscaling_policy: {},
+          recommendation_policy: {},
+          best_practices_and_limitations: {}
+        }
+      },
       security: {
         items: {
           permissions_required: {},

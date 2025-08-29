@@ -1,0 +1,136 @@
+---
+title: AutoscalingPolicy
+---
+
+# AutoscalingPolicy
+
+**AutoscalingPolicy** defines **which Workloads** should have their **Requests and Limits** automatically adjusted, **when** these adjustments should occur, and **how** they should be applied.
+By properly configuring a AutoscalingPolicy, you can continuously adjust the Requests of a group of Workloads to a reasonable and efficient level.
+
+> **Note:** Fields marked with * are required.
+
+## Enable*
+
+**Enable** toggles whether an **AutoscalingPolicy** is active (enabled by default).
+
+When set to Disabled, the policy is removed from the cluster and retained only on the server. This operation effectively deletes the **AutoscalingPolicy** and will trigger the **On Policy Removal** actions.
+
+## Priority
+
+When multiple AutoscalingPolicy match the same Workload, **Priority** determines which policy takes precedence.
+
+- A AutoscalingPolicy with a **higher Priority** value will be applied first.
+- If two AutoscalingPolicies have the **same Priority**, the one created earlier will be applied.
+
+The **Priority** field allows you to flexibly apply AutoscalingPolicies across your workloads.
+
+For example:
+
+- You can configure a AutoscalingPolicy with **Priority = 0** that matches most or even all Workloads but does not actively adjust them.
+- Then, you can define additional AutoscalingPolicies with **higher Priority values** to target specific Workloads with more aggressive adjustment strategies.
+
+## Recommendation Policy Name*
+
+The **RecommendationPolicyName** specifies which **Recommendation Policy** the AutoscalingPolicy should use to calculate recommendations.
+It defines both the calculation method and the applicable scope.
+
+For details, see [Recommendation Policy](./recommendation_policy).
+
+## TargetRefs
+
+**TargetRefs** specify the scope of Workloads to which the AutoscalingPolicy applies.
+You can configure multiple TargetRefs to cover a broader set of Workloads.
+
+| Field          | Allowed Values                     | Required | Description                                                                                                                   |
+|----------------|------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------------|
+| **APIVersion** | `apps/v1`                          | Yes      | API version of the Workload. Only `apps/v1` is supported.                                                                     |
+| **Kind**       | `Deployment` \| `StatefulSet`      | Yes      | Type of Workload. Currently supports `Deployment` and `StatefulSet`.                                                          |
+| **Name**       | Any valid Workload name \| *empty* | No       | Name of the Workload. If left empty, it matches **all Workloads** within the namespace or cluster (depending on `Namespace`). |
+| **Namespace**  | Any valid namespace \| *empty*     | No       | Namespace of the Workload. If left empty, it matches **all namespaces** in the cluster.                                       |
+
+## Update Schedule
+
+**UpdateSchedule** defines **when** a Workload should use a particular update mode.
+
+- Items listed **later in the schedule** have higher priority.
+- If no schedule matches, the default mode is `Off`.
+
+By configuring multiple Update Schedule Items, you can apply different update modes at different times.
+For example:
+
+- During the day, only allow updates using the `OnCreate` mode.
+- At night, allow updates using the `ReCreate` mode.
+
+### Update Schedule Item
+
+| Field      | Allowed Values / Format                        | Description                                                                                                             |
+|------------|------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `Name`     | Any non-empty string                           | Human-readable name of this schedule item.                                                                              |
+| `Schedule` | Cron expression (e.g., `0 2 * * *`)            | Start time defined by a cron schedule. Must follow standard cron syntax. Must be **provided together with** `duration`. |
+| `Duration` | Go/K8s duration string (e.g., `30m`, `1h`)     | Length of time the `mode` remains active after `schedule` triggers. Must be **provided together with** `schedule`.      |
+| `Mode`     | `OnCreate` \| `ReCreate` \| `InPlace` \| `Off` | Update behavior to apply when this item is active.                                                                      |
+
+**Constraint:** `schedule` and `duration` are **jointly optional** — either **both present** (time-windowed rule) or **both absent** (always applicable rule with the specified `mode`).
+
+### UpdateMode
+
+| Value      | Behavior                                              | Typical Use Case                                                                |
+|------------|-------------------------------------------------------|---------------------------------------------------------------------------------|
+| `OnCreate` | Apply changes only when new Pods are created.         | Safe, no disruption to existing Pods.                                           |
+| `ReCreate` | Apply changes by recreating Pods (rolling replace).   | When in-place vertical changes are not supported or a clean restart is desired. |
+| `InPlace`  | Apply changes in place to running Pods (no recreate). | Minimal disruption on clusters that support in-place resource updates.          |
+| `Off`      | Do not apply changes (disabled).                      | Temporarily pause updates.                                                      |
+
+When the `UpdateMode` is set to either `ReCreate` or `InPlace`, the `OnCreate` mode will also be applied automatically. This ensures that when a Pod restarts normally, the newly created Pod will always receive the latest recommendations, regardless of the Drift Thresholds.
+
+> **Note:** The `InPlace` mode has certain limitations and may automatically fall back to `ReCreate` in some cases. For details, see [InPlace Limitations](./best_practices_and_limitations#inplace-update-mode-limitations).
+
+## Update Resources*
+
+**UpdateResources** defines which resources should be managed by the Workload Autoscaler.
+Available resources: `CPU` / `Memory`.
+
+- You must select at least one resource.
+- Only the selected resources will be actively updated.
+- This setting does **not** affect how recommendations are calculated.
+
+If you don’t have specific requirements or if you already use HPA, we recommend allowing **both CPU and Memory** to be managed.
+
+> **Note:** After optimizations have been applied, changing Update Resources will not roll back modifications that are already in effect. By default, we do not recommend updating this field. Instead, create a new AutoscalingPolicy and gradually replace the existing configuration.
+
+## Drift Thresholds
+
+**DriftThresholds** define the deviation between the recommended value and the current value that should trigger an active update.
+
+- You can configure this as either a **percentage** or an **absolute value**.
+- The default is **10%**.
+
+| Resource Type | Percentage | Absolute Value (Option 1) | Absolute Value (Option 2) |
+|---------------|------------|---------------------------|---------------------------|
+| **CPU**       | `20%`      | `0.5`                     | `200m`                    |
+| **Memory**    | `10%`      | `0.25Gi`                  | `500Mi`                   |
+
+If the deviation for **any resource** in a Pod exceeds the threshold, the Pod will be actively updated.
+
+## On Policy Removal
+
+**OnPolicyRemoval** defines how Pods are rolled back when a AutoscalingPolicy is removed.
+- The default is `Off`: the configuration will be deleted, but no action will be taken on existing Pods.
+
+| Value      | Behavior on policy removal                                                                     | Business impact             | Recommended scenarios                                                                        | Notes                                                                                                     |
+|------------|------------------------------------------------------------------------------------------------|-----------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| `Off`      | Delete the EVPAC configuration only; **do not** roll back Pod **requests** (status quo).       | No restart, zero downtime   | When rollback is not required; keep current resource settings after troubleshooting.         | **Limits** are unchanged. This option makes no changes to requests/limits.                                |
+| `ReCreate` | Roll back to the pre-policy **requests** by **recreating** target Workloads (rolling replace). | Restarts, brief downtime    | Cluster does not support in-place vertical changes; require scheduler to reassign resources. | Ensure safe rolling strategy. **Limits** typically remain unchanged unless your controller handles them.  |
+| `InPlace`  | Roll back to the pre-policy **requests** via **in-place** Pod updates (no recreate).           | Usually zero/low disruption | Cluster supports in-place vertical resizing; prioritize minimal disturbance.                 | Requires cluster/runtime support for in-place updates. **Limits** unchanged unless otherwise implemented. |
+
+> **Note:** The `InPlace` mode has certain limitations and may automatically fall back to `ReCreate` in some cases. For details, see [InPlace Limitations](./best_practices_and_limitations#inplace-update-mode-limitations). When unexpected situations prevent us from restoring the Pod Request for 10 minutes, we will allow the configuration to be deleted directly without restoring the Pod Request.
+
+## Limit Policy*
+
+**LimitPolicy** defines how Pod limits should be reset.
+
+| Field         | Behavior                                                                   |
+|---------------|----------------------------------------------------------------------------|
+| `RemoveLimit` | Remove Pod `limits` (no CPU/Memory caps).                                  |
+| `KeepLimit`   | Keep existing Pod `limits` unchanged.                                      |
+| `Multiplier`  | Recalculate `limits` by multiplying with the recommendation request value. |
