@@ -38,12 +38,13 @@ For details, see [Recommendation Policy](./recommendation_policy).
 
 ## TargetRefs
 
+![target_refs](./img/autoscaling_policy/target_refs.png)
+
 **TargetRefs** specify the scope of Workloads to which the AutoscalingPolicy applies.
 You can configure multiple TargetRefs to cover a broader set of Workloads.
 
 | Field          | Allowed Values                     | Required | Description                                                                                                                   |
 |----------------|------------------------------------|----------|-------------------------------------------------------------------------------------------------------------------------------|
-| **APIVersion** | `apps/v1`                          | Yes      | API version of the Workload. Only `apps/v1` is supported.                                                                     |
 | **Kind**       | `Deployment` \| `StatefulSet`      | Yes      | Type of Workload. Currently supports `Deployment` and `StatefulSet`.                                                          |
 | **Name**       | Any valid Workload name \| *empty* | No       | Name of the Workload. If left empty, it matches **all Workloads** within the namespace or cluster (depending on `Namespace`). |
 | **Namespace**  | Any valid namespace \| *empty*     | No       | Namespace of the Workload. If left empty, it matches **all namespaces** in the cluster.                                       |
@@ -63,6 +64,8 @@ For example:
 
 ### Update Schedule Item
 
+![update_schedule](./img/autoscaling_policy/update_schedule.png)
+
 | Field      | Allowed Values / Format                        | Description                                                                                                             |
 |------------|------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
 | `Name`     | Any non-empty string                           | Human-readable name of this schedule item.                                                                              |
@@ -71,6 +74,8 @@ For example:
 | `Mode`     | `OnCreate` \| `ReCreate` \| `InPlace` \| `Off` | Update behavior to apply when this item is active.                                                                      |
 
 **Constraint:** `schedule` and `duration` are **jointly optional** — either **both present** (time-windowed rule) or **both absent** (always applicable rule with the specified `mode`).
+
+You can visit [here](https://crontab.cronhub.io/) to refer to how the Cron syntax of the `Schedule` field works.
 
 ### UpdateMode
 
@@ -87,6 +92,8 @@ When the `UpdateMode` is set to either `ReCreate` or `InPlace`, the `OnCreate` m
 
 ## Update Resources*
 
+![update_resource](./img/autoscaling_policy/update_resource.png)
+
 **UpdateResources** defines which resources should be managed by the Workload Autoscaler.
 Available resources: `CPU` / `Memory`.
 
@@ -99,6 +106,8 @@ If you don’t have specific requirements or if you already use HPA, we recommen
 > **Note:** After optimizations have been applied, changing Update Resources will not roll back modifications that are already in effect. By default, we do not recommend updating this field. Instead, create a new AutoscalingPolicy and gradually replace the existing configuration.
 
 ## Drift Thresholds
+
+![drift_thresholds](./img/autoscaling_policy/drift_thresholds.png)
 
 **DriftThresholds** define the deviation between the recommended value and the current value that should trigger an active update.
 

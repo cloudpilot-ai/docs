@@ -18,6 +18,8 @@ Additional strategy types will be available in the future.
 
 ## Percentile
 
+![percentile](./img/recommendation_policy/percentile.png)
+
 When `StrategyType` is set to `Percentile`, this configuration is required. You need to specify a `Percentile` value for
 both `CPU` and `Memory`. The range of `Percentile` is from `P50` to `P100`.
 
@@ -38,6 +40,8 @@ Below are some commonly used Percentile values and their typical use cases:
 
 ## Buffer
 
+![buffer](./img/recommendation_policy/buffer.png)
+
 `Buffer` is used to add a margin on top of the recommended value to handle burst traffic or sudden resource demands.
 You can configure `Buffer` separately for `CPU` and `Memory`.
 
@@ -48,7 +52,15 @@ You can configure `Buffer` separately for `CPU` and `Memory`.
 | **CPU**       | `20%`      | `0.5`                     | `200m`                    |
 | **Memory**    | `10%`      | `0.25Gi`                  | `500Mi`                   |
 
+![buffer_20](./img/recommendation_policy/buffer_20.png)
+
+When the buffer is a percentage, it is directly multiplied by each container’s recommendation to obtain the final value.
+When the buffer is an absolute value, if every container has a configured request, the buffer is allocated according to each container’s share of the total pod request.
+If not all containers have requests configured, the buffer is allocated based on each container’s proportion of the total pod recommendation.
+
 ## History Window*
+
+![history_window](./img/recommendation_policy/history_window.png)
 
 `History Window` defines the time window of historical data used to calculate the recommended values.
 It specifies the duration of resource usage data that will be considered during recommendation calculations.
@@ -70,6 +82,8 @@ For critical workloads, you can set it to 7 days to ensure recommendations accou
 > **Note:** When the source data (Prometheus Pod usage metrics) is insufficient, the Workload Autoscaler will compute using whatever data is available, which may result in recommendations that are lower or higher than expected.
 
 ## Resource Limits
+
+![resource_limits](./img/recommendation_policy/resource_limits.png)
 
 You can set both `Min` and `Max` limits for `CPU` and `Memory`. This ensures that the recommended values will not fall below or exceed the range you define.
 
