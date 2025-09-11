@@ -9,7 +9,7 @@ It allows you to define the range of recommendation values, enabling more flexib
 
 This document explains the meaning and valid range of each field in the `Recommendation Policy`.
 
-> **Note:** Fields marked with * are required.
+> **Note:** For all containers, if the recommended values are below the minimums, the system automatically raises them to: CPU `20m` and Memory `20Mi`. This ensures that resource requests never fall below safe operational thresholds.
 
 ## Strategy Type*
 
@@ -86,7 +86,6 @@ For critical workloads, you can set it to 7 days to ensure recommendations accou
 ![resource_limits](./img/recommendation_policy/resource_limits.png)
 
 You can set both `Min` and `Max` limits for `CPU` and `Memory`. This ensures that the recommended values will not fall below or exceed the range you define.
-
 The `Max limit` is applied after the `Buffer` is calculated, meaning the final recommended value (including the `Buffer`) will not exceed the `Max limit`.
 
 For `Resource Limits`, you can use either percentages or absolute values:
@@ -99,6 +98,8 @@ For `Resource Limits`, you can use either percentages or absolute values:
 In most cases, we recommend ***using percentages so the system can adjust based on your original Request configuration***.
 For example, if you set `CPU` to `30%` ~ `200%`, the final recommended value will never be lower than `30%` of the original Request,
 nor higher than `200%` of the original Request.
+
+We strongly recommend that you configure Min limits for both `CPU` and `Memory` resources to prevent recommended values from being too low in certain cases, which could cause Pods to fail to run properly.
 
 > **Note:** When using percentages for `Resource Limits`, you must ensure that all containers within the workloads governed by this `Recommendation Policy` have defined Request values for the corresponding resource. Otherwise, the system will not be able to calculate a recommendation.
 

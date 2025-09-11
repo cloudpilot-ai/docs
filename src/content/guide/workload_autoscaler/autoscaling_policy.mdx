@@ -88,6 +88,8 @@ You can visit [here](https://crontab.cronhub.io/) to refer to how the Cron synta
 
 When the `UpdateMode` is set to either `ReCreate` or `InPlace`, the `OnCreate` mode will also be applied automatically. This ensures that when a Pod restarts normally, the newly created Pod will always receive the latest recommendations, regardless of the Drift Thresholds.
 
+For `ReCreate` operations, when attempting to evict a **single-replica** Deployment **without PVCs**, we perform a **rolling update** to avoid service interruption during the update.
+
 > **Note:** The `InPlace` mode has certain limitations and may automatically fall back to `ReCreate` in some cases. For details, see [InPlace Limitations](./best_practices_and_limitations#inplace-update-mode-limitations).
 
 ## Update Resources*
@@ -101,9 +103,9 @@ Available resources: `CPU` / `Memory`.
 - Only the selected resources will be actively updated.
 - This setting does **not** affect how recommendations are calculated.
 
-If you don’t have specific requirements or if you already use HPA, we recommend allowing **both CPU and Memory** to be managed.
+If you don’t have specific requirements or if you already use `HPA`, we recommend allowing **both `CPU` and `Memory`** to be managed.
 
-> **Note:** After optimizations have been applied, changing Update Resources will not roll back modifications that are already in effect. By default, we do not recommend updating this field. Instead, create a new AutoscalingPolicy and gradually replace the existing configuration.
+> **Note:** When you modify the `Update Resources`, an update operation may be triggered based on the deviation between the recommended value and the current value. This operation will take effect immediately once the conditions of the `Update Schedule` are met.
 
 ## Drift Thresholds
 
@@ -132,14 +134,23 @@ If the deviation for **any resource** in a Pod exceeds the threshold, the Pod wi
 | `ReCreate` | Roll back to the pre-policy **requests** by **recreating** target Workloads (rolling replace). | Restarts, brief downtime    | Cluster does not support in-place vertical changes; require scheduler to reassign resources. | Ensure safe rolling strategy. **Limits** typically remain unchanged unless your controller handles them.  |
 | `InPlace`  | Roll back to the pre-policy **requests** via **in-place** Pod updates (no recreate).           | Usually zero/low disruption | Cluster supports in-place vertical resizing; prioritize minimal disturbance.                 | Requires cluster/runtime support for in-place updates. **Limits** unchanged unless otherwise implemented. |
 
+For `ReCreate` operations, when attempting to evict a **single-replica** Deployment **without PVCs**, we perform a **rolling update** to avoid service interruption during the update.
+
 > **Note:** The `InPlace` mode has certain limitations and may automatically fall back to `ReCreate` in some cases. For details, see [InPlace Limitations](./best_practices_and_limitations#inplace-update-mode-limitations). When unexpected situations prevent us from restoring the Pod Request for 10 minutes, we will allow the configuration to be deleted directly without restoring the Pod Request.
 
 ## Limit Policy*
 
 **LimitPolicy** defines how Pod limits should be reset.
+By default, **we recommend using `RemoveLimit`** to ensure that a Workload can occasionally preempt more resources when needed.
+
+When using Multiplier, we suggest setting a reasonable lower bound for `CPU`/`Memory` recommendations. In rare cases (e.g., in testing environments where actual usage is extremely low), the recommended values may not be sufficient for stable Pod startup or handling sudden traffic spikes.
 
 | Field         | Behavior                                                                   |
 |---------------|----------------------------------------------------------------------------|
 | `RemoveLimit` | Remove Pod `limits` (no CPU/Memory caps).                                  |
 | `KeepLimit`   | Keep existing Pod `limits` unchanged.                                      |
 | `Multiplier`  | Recalculate `limits` by multiplying with the recommendation request value. |
+
+When you modify the `Limit Policy`, an update operation may be triggered. This decision is based on the deviation between the current values and the recommended values, as well as whether existing Pods have their limits set according to the expected configuration. Once the conditions of the `Update Schedule` are met, the update will take effect immediately.
+
+> **Note:** When using `KeepLimit`, the final recommended values will never exceed your configured Limits. If you want Pods to be able to use more resources in certain cases, consider using `RemoveLimit` or `Multiplier` instead.

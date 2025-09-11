@@ -74,3 +74,17 @@ Similarly, the `Workload Autoscaler` component is uninstalled together with the 
 to uninstall the `Workload Autoscaler` component independently, please contact our technical support team for assistance.
 
 > **Note:** Before uninstalling the Workload Autoscaler, please make sure that all AutoscalingPolicies have been deleted or disabled, and confirm that all Workloads have been restored to their original state.
+
+## Configure the Update/Evict Limiter
+
+By default, the **Workload Autoscaler** enables a **Limiter** that throttles the number of **in-place updates** and **Pod evictions**. This helps prevent large clusters from becoming unstable when many Pods are updated or evicted in a short period.
+
+You can tune the Limiter with the environment variables below. If not set, the defaults apply.
+
+| ENV var                    | Default | What it controls                                                               |
+|----------------------------|---------|--------------------------------------------------------------------------------|
+| `LIMITER_QUOTA_PER_WINDOW` |   **5** | Tokens added to the bucket each window.                                        |
+| `LIMITER_BURST`            |  **10** | Maximum tokens allowed in the bucket (peak operations within a window).        |
+| `LIMITER_WINDOW_SECONDS`   |  **30** | Window length in seconds; every window adds `LIMITER_QUOTA_PER_WINDOW` tokens. |
+
+> **Note:** For eviction operations, when attempting to evict a **single-replica** Deployment **without PVCs**, we perform a **rolling update** to avoid service interruption during the update.
