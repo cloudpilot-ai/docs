@@ -4,9 +4,11 @@ title: Workload Configuration Guide
 
 # Workload Configuration Guide
 
+CloudPilot AI's **Workload Configuration** feature allows you to customize how your workloads are managed during rebalance operations. This guide explains the available configuration options and how to use them effectively.
+
 ## 1. Configuration Overview
 
-The **Workload Configuration** allows you to customize various settings for workloads within your system to optimize performance, cost-efficiency, and reliability. The key configuration options are:
+The workload configuration interface provides three key settings:
 
 ![workload-config-enable](./img/workload-config-enable.png)
 
@@ -14,23 +16,41 @@ The **Workload Configuration** allows you to customize various settings for work
 This setting determines whether a workload can be part of a **Rebalance** operation, meaning it can be moved or adjusted by the system as part of resource optimization. Enabling this option allows your workload to be managed and rebalanced by the system for better resource allocation.
 
 ### Spot Friendly Configuration
-This option specifies whether a workload is compatible with cloudpilot ai's **Spot Scheduling**, which allows workloads to run on spot instances that are often cheaper but may be terminated by the cloud provider with little notice. This configuration takes effect only if **Rebalanceable** is enabled.
+This option specifies whether a workload is compatible with CloudPilot AI's **Spot Scheduling**, which allows workloads to run on spot instances that are often cheaper but may be terminated by the cloud provider with little notice. This configuration takes effect only if **Rebalanceable** is enabled.
 
 ### Min Non-Spot Replicas Configuration
 This configuration sets the minimum number of **Non Spot Replicas** required for the workload. It ensures that even when spot instances are used, a certain number of replicas remain on more stable, non-spot instances. This setting is only relevant when the **Spot Friendly** configuration is enabled.
 
 ## 2. Personalized Workload Configuration
 
-Here’s an example of how to configure different workloads with the settings mentioned above:
+Here are practical examples of how to configure different workload types:
 
-1. Set the **log-server** workload to **Non Rebalanceable**, ensuring it is not included in any rebalance operations.
-2. Enable **Rebalanceable** for the **nginx** workload, and set its **Min Non-Spot Replicas** to **5**, ensuring there are at least 5 non-spot replicas for nginx at all times.
-3. Set **mysql** to be **Rebalanceable** and **Non Spot Friendly**, allowing it to be scheduled on spot instances as needed.
+### Example 1: Logging Service (log-server)
+```yaml
+# Static logging service
+- Rebalanceable: ❌ Disabled
+- Spot Friendly: N/A
+- Min Non-Spot Replicas: N/A
+```
+**Rationale:** Logging services typically don't need rebalancing and should remain stable.
 
-### Example Configuration:
-- **log-server**: Non Rebalanceable
-- **nginx**: Rebalanceable, Min Non-Spot Replicas = 5
-- **mysql**: Rebalanceable, Non Spot Friendly
+### Example 2: Web Server (nginx)
+```yaml
+# Load balancer with mixed instances
+- Rebalanceable: ✅ Enabled
+- Spot Friendly: ✅ Enabled
+- Min Non-Spot Replicas: 5
+```
+**Rationale:** Ensures at least 5 stable replicas while allowing cost savings with spot instances.
+
+### Example 3: Database Workload (mysql)
+```yaml
+# High availability database
+- Rebalanceable: ✅ Enabled
+- Spot Friendly: ❌ Disabled
+- Min Non-Spot Replicas: N/A
+```
+**Rationale:** Databases need stability, so they run only on on-demand instances.
 
 ![workload-config-disable](./img/workload-config-disable.png)
 
