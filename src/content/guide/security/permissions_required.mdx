@@ -215,6 +215,18 @@ rules:
   - patch
   - delete
   - approve
+- apiGroups:
+  - agent.cloudpilot.ai
+  resources:
+  - podmutations
+  verbs:
+  - get
+  - create
+  - update
+  - patch
+  - delete
+  - list
+  - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
