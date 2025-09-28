@@ -18,7 +18,8 @@ export default {
         items: {
           getting_started: {},
           installation_environment: {},
-          deploying_with_existing_user: {}
+          deploying_with_existing_user: {},
+          get_apikeys: {}
         }
       },
       rebalance_configuration: {
