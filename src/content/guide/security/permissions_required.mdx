@@ -631,6 +631,79 @@ These permissions allow CloudPilot AI to interact with ECS and ScalingGroup APIs
 
 All cloud provider permissions align closely with those used by Karpenter, with the addition of access to scaling group APIs (`AWS/AutoScalingGroup`, A`libabaCloud/ScalingGroup`) to enable existing node optimization.
 
+## Workload Autoscaler Additional Permissions
+
+The Workload Autoscaler component will require a ClusterRole as well as a Role to manage the following:
+
+- Workload Autoscaler related CRD resources
+- Read and update workload resources such as Pod, Deployment, StatefulSet, and ReplicaSet
+- Evict and resize Pod
+- Manage the Workload Autoscaler’s CSR resources to support the issuance and renewal of TLS certificates for the Webhook
+
+<details>
+    <summary>ClusterRole/Role Used in Phase 1</summary>
+    ```yaml
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: ClusterRole
+    metadata:
+    name: cloudpilot-workload-autoscaler-cluster-role
+    labels:
+    app.kubernetes.io/name: cloudpilot-workload-autoscaler
+    rules:
+    - apiGroups: [""]
+    resources: [pods, pods/eviction, pods/resize, pods/status]
+    verbs: [create, update, get, list, watch, patch, delete]
+    - apiGroups: ["apps"]
+    resources: [deployments, statefulsets, replicasets]
+    verbs: [get, list, watch, patch]
+    - apiGroups: ["evpa.cloudpilot.ai"]
+    resources:
+    - autoscalingpolicyconfigurations
+    - autoscalingpolicyconfigurations/status
+    verbs: [create, update, list, watch, patch, delete]
+    - apiGroups: ["evpa.cloudpilot.ai"]
+    resources:
+    - autoscalingpolicies
+    - autoscalingpolicies/status
+    - recommendationpolicies
+    verbs: [update, list, watch, patch]
+    - apiGroups: ["certificates.k8s.io"]
+    resources:
+    - certificatesigningrequests
+    - certificatesigningrequests/approval
+    verbs: [get, create, update]
+    - apiGroups: ["certificates.k8s.io"]
+    resources: [signers]
+    resourceNames: ["kubernetes.io/kubelet-serving", "beta.eks.amazonaws.com/app-serving"]
+    verbs: [approve]
+    - apiGroups: ["admissionregistration.k8s.io"]
+    resources: [mutatingwebhookconfigurations, validatingwebhookconfigurations]
+    verbs: [get, update, list, watch]
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: Role
+    metadata:
+    name: cloudpilot-workload-autoscaler-role
+    namespace: cloudpilot
+    labels:
+    app.kubernetes.io/name: cloudpilot-workload-autoscaler
+    rules:
+    - apiGroups: ["coordination.k8s.io"]
+    resources: [leases]
+    verbs: [get, create, update, watch]
+    - apiGroups: [""]
+    resources: [configmaps]
+    resourceNames: ["kube-root-ca.crt"]
+    verbs: [get, update]
+    - apiGroups: [""]
+    resources: [secrets]
+    verbs: [get, update, list, watch]
+    - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["create", "patch"]
+    ```
+</details>
+
 ## Commitment to Privacy and Security
 
 CloudPilot AI adheres strictly to data protection best practices. We access only the data necessary for operation and optimization, and we never request or retain unnecessary privileges.
