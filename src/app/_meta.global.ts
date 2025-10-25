@@ -58,7 +58,8 @@ export default {
       },
       concepts: {
         items: {
-          node_pod_evictor: {}
+          node_pod_evictor: {},
+          tseries_instance_type: {}
         }
       },
       troubleshooting: {
