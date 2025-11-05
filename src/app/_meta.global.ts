@@ -53,7 +53,8 @@ export default {
           aws_marketplace_subscription: {},
           upgrade_guide: {},
           uninstall: {},
-          poc_process: {}
+          poc_process: {},
+          karpenter_events: {}
         }
       },
       concepts: {
