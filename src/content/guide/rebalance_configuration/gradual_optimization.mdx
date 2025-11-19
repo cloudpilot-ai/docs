@@ -1,12 +1,13 @@
 ---
-title: Keep Some Existing Nodes and Exclude Them from Optimization
+title: Gradual Cluster Optimization
 ---
 
 import { Callout } from 'nextra/components'
 
-# Keep Some Existing Nodes and Exclude Them from Optimization
+# Gradual Cluster Optimization
 
 In some scenarios, users may want to keep certain nodes:
+- Optimize a few nodes in the cluster first to check for stability and cost savings before optimizing all of them.
 - Some nodes are on an annual or monthly subscription, and they have not yet expired. These nodes should be kept until their subscription ends.
 - Some nodes are Reserved Instances (RI) or Savings Plan (SP), and the contract has not yet expired. These should also be kept until their contract ends.
 
@@ -22,23 +23,14 @@ By following the steps below, you can selectively optimize only a part of the no
 
 Before proceeding, please install CloudPilot AI by following the instructions in the [Quickstart guide](/guide/getting_started/getting_started). However, remember to only execute the first three steps.
 
-## Add Annotations to Nodes
+## Rebalance target nodes
 
-Add annotation `karpenter.sh/do-not-disrupt: "true"` to the nodes you want to keep. For example:
+Go to the rebalance page, click `Progressive Migration`, and select the nodes you want to optimize. The unselected nodes will remain unchanged. Follow these steps:
 
-```sh
-$ kubectl get node
-NAME                       STATUS   ROLES    AGE    VERSION
-node-01.172.16.0.167       Ready    <none>   60m    v1.31.1-k8s.1
-node-02.172.16.3.212       Ready    <none>   2m8s   v1.31.1-k8s.1
-
-$ kubectl annotate node node-01.172.16.0.167 karpenter.sh/do-not-disrupt=true
-node/node-01.172.16.0.167 annotated
-```
-
-Once you've annotated the nodes, go to the console, and you'll see the annotated node will be kept:
-![img](./img/keep_node.png)
+<div style={{ textAlign: 'center', width: '90%', borderRadius: '8px', overflow: 'hidden', justifyContent: 'center' }}>
+  ![progressive migration](./img/gradual_optimization.png)
+</div>
 
 ## Start Cluster Optimization
 
-Now, click the `Start Saving` button. CloudPilot AI will begin optimizing only the nodes that are not annotated. In the end, you will see that only the un-annotated nodes are optimized.
+Now, click the `Start Optimization` button. CloudPilot AI will optimize only the selected nodes. In the end, you'll see that only the unselected nodes remain unchanged.
