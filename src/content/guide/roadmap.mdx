@@ -1,0 +1,29 @@
+---
+title: CloudPilot AI Roadmap
+---
+
+# CloudPilot AI Roadmap
+
+The goal of CloudPilot AI is to build an extremely elastic infrastructure, ensuring the lowest cost while maintaining stability. From the underlying computing resources to the operating system and up to the upper-layer applications, it achieves optimal cost and extreme elasticity through technologies such as elasticity and scheduling from bottom to top.
+
+They are aligned with the roadmap direction for the next half year. As for the detailed roadmap, we'll update and list below:
+
+### 2026 First Quarter Roadmap
+
+This iteration mainly focuses on troubleshooting and fixing, performance enhancements, and intelligent configurations, providing users with ultimate flexibility and significantly reducing their maintenance operations.
+
+* Anomaly detection and automatic repair: Automatically detect cluster anomalies, issue alert notifications, and perform automatic repairs, such as automatically fixing abnormal PDB configurations that prevent cluster resource consolidation, or automatically upgrading disk sizes when node disks are insufficient.
+* Shutdown-based node startup acceleration: By pre-warming nodes, directly starting nodes from a shutdown state, the node startup time is reduced from 50s to 20s.
+* P2P image pull acceleration: Using P2P technology to accelerate the pulling of new Pod images, mainly targeting large image operations.
+* Intelligent configuration: Currently, for different environments (such as development and production), users need to fine-tune many configurations, which can be burdensome. CloudPilot AI is optimizing this part, with the goal of fully intelligent and automated configuration to reduce user configuration tasks.
+* microVM-based live migration: CRIU, which runc uses, has many limitations, and there are a lot of restrictions during hot migration, such as when the container uses fsnotify. CloudPilot AI will use microVM, bypassing CRIU, to achieve a general live migration. Ultimately, users can leverage this technology to achieve ultra-fast startup (even for Java), allowing the workloads to migrate from one node to another without interruption (for Job types). Combined with CloudPilot AI, this approach reduces costs and improves performance.
+
+### 2025 Fourth Quarter Roadmap
+
+This iteration mainly focuses on completing the basic functions and optimizing the application layer, providing customers with a comprehensive basic functionality experience.
+
+* Workload autoscaler: By intelligently tuning K8s Pod resource requests/limits, it eliminates resource waste while avoiding OOM and CPU Throttling, thereby enhancing business stability.
+* CloudPilot AI Universal: Supports optimizing the Pod resource requests/limits of any K8s cluster, including on-premises and public clouds, with functionalities consistent with the Workload autoscaler.
+* Java application optimization: The optimization of Java application Pod requests/limits is quite different from that of other applications written in Go or other languages. CloudPilot AI will perform the optimization based on various dimensional metrics, including those from the JVM.
+* GKE support: CloudPilot AI will provide GKE optimization support.
+* Organization management: CloudPilot AI will support organization management, allowing multiple organization members to be assigned different permissions for unified cluster management.
