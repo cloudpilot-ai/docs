@@ -41,10 +41,13 @@ rules:
   - apiGroups:
       - ""
     resources:
+      - "namespaces"
       - "nodes"
       - "pods"
+      - "pods/log"
       - "persistentvolumeclaims"
       - "persistentvolumes"
+      - "services"
     verbs:
       - get
       - list
@@ -68,14 +71,6 @@ rules:
       - get
       - list
       - watch
-  - apiGroups:
-      - "batch"
-    resources:
-      - "jobs"
-    verbs:
-      - "get"
-      - "list"
-      - "watch"
   - apiGroups:
       - "metrics.k8s.io"
     resources:

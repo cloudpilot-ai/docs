@@ -41,6 +41,13 @@ export default {
           inplace_update_mode_best_practices_and_limitations: {}
         }
       },
+      universal: {
+        title: 'CloudPilot AI Universal',
+        items: {
+          overview: {},
+          getting_started: {}
+        }
+      },
       security: {
         items: {
           permissions_required: {},
