@@ -1,0 +1,71 @@
+---
+title: Getting Started
+---
+
+# Getting Started with CloudPilot AI Universal
+
+This document provides a step-by-step guide to deploying and optimizing a cluster with CloudPilot AI Universal.
+It covers cluster connection to the CloudPilot AI console, compute cost customization, and Workload Autoscaler installation.
+
+## Prerequisites
+
+- A Kubernetes cluster (any distribution, including on-premises or other public cloud providers)
+- `kubectl` installed and configured to access your cluster
+- Access to the [CloudPilot AI console](https://console.cloudpilot.ai)
+
+## Step 1: Connect Your Cluster to CloudPilot AI
+
+After logging into the [CloudPilot AI console](https://console.cloudpilot.ai), perform the following:
+
+1. Click **Add Cluster**.
+2. Select **Universal** as the deployment mode.
+3. Enter the name of your cluster.
+4. Copy and execute the provided shell command in your terminal.
+
+<div style={{ textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '20px', margin: '50px auto 0 auto' }}>
+  <div style={{ textAlign: 'center', width: '48%', borderRadius: '8px', overflow: 'hidden' }}>
+    ![universal-add-cluster-step1](./img/add-cluster-step1.png)
+  </div>
+  <div style={{ textAlign: 'center', width: '48%', borderRadius: '8px', overflow: 'hidden' }}>
+    ![universal-add-cluster-step2](./img/add-cluster-step2.png)
+  </div>
+</div>
+
+After executing the script:
+
+1. Click **I ran the script**.
+2. Click the selected cluster, navigate to the **Cluster** tab, and view the cluster information.
+
+<div style={{ textAlign: 'center', display: 'flex', justifyContent: 'center', gap: '20px', margin: '50px auto 0 auto' }}>
+  <div style={{ textAlign: 'center', width: '80%', borderRadius: '8px', overflow: 'hidden' }}>
+    ![universal-cluster-view](./img/cluster-view.png)
+  </div>
+</div>
+
+## Step 2: Customize Compute Cost
+
+To enable accurate cost monitoring and optimization recommendations, you need to configure the compute cost for your cluster nodes.
+This helps CloudPilot AI calculate potential savings and provide accurate cost insights.
+
+1. Navigate to the **Cost Monitoring** tab in your cluster dashboard.
+2. Click **Update Resource costs**.
+3. Enter the hourly cost for CPU and Memory:
+   - **CPU cost per hour**: The cost per CPU core per hour
+   - **Memory cost per hour**: The cost per GiB of memory per hour
+
+<div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px auto 0 auto' }}>
+  <div style={{ textAlign: 'center', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
+    ![universal-customize-compute-cost-1](./img/customize-cost-1.png)
+  </div>
+  <div style={{ textAlign: 'center', width: '100%', borderRadius: '8px', overflow: 'hidden' }}>
+    ![universal-customize-compute-cost-2](./img/customize-cost-2.png)
+  </div>
+</div>
+
+After configuring the compute costs, CloudPilot AI will be able to display real-time cost monitoring for your cluster.
+
+## Step 3: Install Workload Autoscaler
+
+The Workload Autoscaler automatically adjusts pod resource requests and limits based on actual usage patterns. 
+
+For detailed installation instructions, including Prometheus requirements and configuration steps, see the [Workload Autoscaler Installation](/guide/workload_autoscaler/installation) guide.

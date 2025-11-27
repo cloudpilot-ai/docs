@@ -1,0 +1,42 @@
+---
+title: Overview
+---
+
+# Overview
+
+**CloudPilot AI Universal** enables you to optimize Kubernetes clusters running on any Kubernetes distribution,
+including on-premises infrastructure and other public Cloud providers.
+
+## What is CloudPilot AI Universal?
+
+CloudPilot AI Universal brings CloudPilot AI's core optimization features to any Kubernetes environment.
+It focuses on workload optimization and efficient resource utilization through the following capabilities:
+
+* **Workload optimization** - automatically adjusts resource requests and limits based on actual usage patterns
+* **Cost savings recommendations(Coming soon)** - generates actionable recommendations to reduce Kubernetes spending
+
+While standard CloudPilot AI takes direct control of node provisioning,
+CloudPilot AI Universal integrates with your existing autoscaling infrastructure,
+achieving substantial cost reductions via workload optimization.
+
+## How does it compare to standard CloudPilot AI?
+
+| Feature                                | Standard CloudPilot AI        | CloudPilot AI Universal                                                                      |
+| -------------------------------------- | ----------------------------- | -------------------------------------------------------------------------------------------- |
+| **Node autoscaling and provisioning**  | Managed by CloudPilot AI      | Managed by your cloud provider or configured on-premises                                     |
+| **Workload optimization**              | ✓                             | ✓                                                                                            |                                                                       |                                                                         |
+| **Cost monitoring**                    | ✓                             | ✓                                                                                            |
+| **Spot Instance management**           | ✓                             | ✗                                                                                            |
+| **Supported environments**             | AWS, Alibaba Cloud            | Any Kubernetes distribution                                                                  |
+
+## How does it work?
+
+CloudPilot AI Universal consists of the following components:
+
+1. **CloudPilot Agent** - collects cluster metrics and state information
+2. **Workload Autoscaler** - adjusts workload resources based on usage patterns
+
+## Next steps
+
+To get started with CloudPilot AI Universal, follow our [Getting Started](./getting_started.mdx) guide.
+
