@@ -13,8 +13,14 @@ export default {
   guide: {
     type: 'page',
     title: 'Guide',
+    theme: {
+      collapsed: true
+    },
     items: {
       getting_started: {
+        theme: {
+          collapsed: true
+        },
         items: {
           getting_started: {},
           terraform: {},
@@ -23,6 +29,9 @@ export default {
         }
       },
       rebalance_configuration: {
+        theme: {
+          collapsed: true
+        },
         items: {
           workload_config: {},
           workload_diversity: {},
@@ -34,6 +43,9 @@ export default {
         }
       },
       workload_autoscaler: {
+        theme: {
+          collapsed: true
+        },
         items: {
           installation: {},
           autoscaling_policy: {},
@@ -42,12 +54,18 @@ export default {
         }
       },
       security: {
+        theme: {
+          collapsed: true
+        },
         items: {
           permissions_required: {},
           data_collection: {}
         }
       },
       administration: {
+        theme: {
+          collapsed: true
+        },
         items: {
           aws_marketplace_subscription: {},
           upgrade_guide: {},
@@ -58,16 +76,25 @@ export default {
         }
       },
       concepts: {
+        theme: {
+          collapsed: true
+        },
         items: {
           node_pod_evictor: {}
         }
       },
       troubleshooting: {
+        theme: {
+          collapsed: true
+        },
         items: {
           log_collection_for_troubleshooting: {}
         }
       },
       tips: {
+        theme: {
+          collapsed: true
+        },
         items: {
           ecr_auto_create: {},
           monitor_availability: {},
