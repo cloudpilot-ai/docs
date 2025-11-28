@@ -4,11 +4,11 @@ title: Karpenter Events
 
 # Karpenter Events
 
-CloudPilot AI surfaces Karpenter controller (disruption, provisioner) events and NodeClaim events in a single, correlated view to visualize node lifecycles, explain create/delete decisions, and diagnose failed node operations.
+CloudPilot AI consolidates Karpenter controller events (disruption and provisioner) together with NodeClaim events into a single, correlated view. This unified view helps you visualize node lifecycles, explain create/replace/delete decisions, and quickly diagnose failed node operations.
 
 ## Controller events
 
-Controller events are grouped by controller type (disruption, provisioner) and operation (create, replace, delete).
+Controller events are grouped by controller type (disruption or provisioner) and by operation (create, replace, delete).
 
 Key fields:
 
@@ -19,25 +19,29 @@ Key fields:
 | reason | Reason the event was triggered |  |
 | nodeClaimNames | Related NodeClaim names |  |
 | nodeClaimIDs | Related NodeClaim IDs |  |
+| deletedNodeClaimNames | Deleted NodeClaim names |  |
+| deletedNodeClaimIDs | Deleted NodeClaim IDs |  |
 | schedulableFailedPods | Pods that failed scheduling |  |
 | processTime | Processing time |  |
 | status | Operation outcome | true, false |
 | errs | Error details (if any) |  |
 | data | Raw event payload and details |  |
 
-### example
+### Example
 
-#### controller event view
+#### Controller event view
 
 ![karpenter_events_view](./img/karpenter-events-controller-event-view.png)
 
-#### controller event details
+#### Controller event details
 
 ![karpenter_events_view_details](./img/karpenter-events-controller-event-details.png)
 
 ## NodeClaim events
 
-NodeClaim events currently include Apply and Delete operations.
+NodeClaim events include apply and delete operations and expose the details needed to audit and troubleshoot NodeClaim lifecycle actions. These correspond to node addition (apply) and node deletion (delete) events, reflecting the underlying node creation and removal activities.
+
+Webhook alerting for NodeClaim events is currently in a limited canary rollout and is not yet generally available. It supports HTTPS and Lark as delivery channels. If you'd like early access or want this enabled for your environment, please contact [our support team](https://www.cloudpilot.ai/en/contact/) to request enablement and configuration.
 
 Key fields:
 
@@ -55,16 +59,16 @@ Key fields:
 | data.nodeClass | Related NodeClass |  |
 | data.nodeClaim | NodeClaim resource associated with the event |  |
 
-### example
+### Example
 
-#### controller event and nodeclaim event view
+#### Controller event and NodeClaim event view
 
 ![controller_event_and_nodeclaim_event_view](./img/karpenter-events-controller-event-and-nodeclaim-event-view.png)
 
-#### nodeclaim event details
+#### NodeClaim event details
 
 ![karpenter_events_view_details](./img/karpenter-events-nodeclaim-event-details.png)
 
 ---
 
-Use Karpenter events to quickly spot node lifecycle changes and speed up troubleshooting. For further assistance, check out the [CloudPilot Documentation](https://docs.cloudpilot.ai/) or reach out to [our support team](https://www.cloudpilot.ai/en/contact/).
+Use Karpenter events to quickly spot node lifecycle changes and accelerate troubleshooting. If you need more help, consult the [CloudPilot Documentation](https://docs.cloudpilot.ai/) or contact [our support team](https://www.cloudpilot.ai/en/contact/).
