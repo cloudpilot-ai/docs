@@ -4,6 +4,8 @@ Title: Installing with Terraform
 
 # Installing with Terraform
 
+> **Important (v0.0.2):** Provider v0.0.2 changes component-upgrade defaults and improves kubeconfig handling. If you previously installed v0.0.1, run `terraform init -upgrade` before your next apply to pull in the new release.
+
 This guide explains how to use the CloudPilot AI Terraform Provider to manage Amazon EKS clusters with automated cost optimization. The provider enables seamless integration of CloudPilot AI's optimization components into your infrastructure-as-code workflow.
 
 ## Overview
@@ -21,6 +23,8 @@ Before using the Terraform Provider, ensure you have:
 
 * **[Terraform](https://developer.hashicorp.com/terraform/install)** - Version 1.0 or later
 * **[AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)** - Configured with credentials that have EKS cluster management permissions
+    - **Important:** Even if you supply a `kubeconfig_path`, the provider still uses AWS CLI credentials for all `kubectl` calls; make sure the CLI can authenticate to the target cluster account.
+    - **Multi-account setups:** Switch to the profile that matches your EKS cluster (for example `AWS_PROFILE=prod-account`) before running Terraform commands.
 * **[kubectl](https://kubernetes.io/docs/tasks/tools/)** - For cluster operations and component management
 * **CloudPilot AI API Key** - See [Get API Keys](/guide/administration/get_apikeys) for setup instructions
 
@@ -53,7 +57,8 @@ The following examples demonstrate different use cases for the Terraform Provide
     terraform {
         required_providers {
             cloudpilotai = {
-                source = "cloudpilot-ai/cloudpilotai"
+                source  = "cloudpilot-ai/cloudpilotai"
+                version = "~> 0.0.2"
             }
         }
     }
@@ -80,7 +85,26 @@ The following examples demonstrate different use cases for the Terraform Provide
     terraform apply
     ```
 
+If you're upgrading from v0.0.1, run `terraform init -upgrade` once to download v0.0.2 before planning.
+
 Refer to the [example configurations](#example-configurations) above for complete working examples.
+
+## Component Upgrade Controls
+
+Starting with provider v0.0.2, CloudPilot AI components no longer upgrade automatically. Both `enable_upgrade_agent` and `enable_upgrade_rebalance_component` default to `false` so that running `terraform apply` does not unexpectedly roll out new controller versions.
+
+Set these flags to `true` when you intentionally want Terraform to upgrade the in-cluster components:
+
+```hcl
+resource "cloudpilotai_eks_cluster" "example" {
+    # ... core settings ...
+
+    enable_upgrade_agent                = true
+    enable_upgrade_rebalance_component  = true
+}
+```
+
+This behavior matches the recommendations in PR [#2](https://github.com/cloudpilot-ai/terraform-provider-cloudpilotai/pull/2) and ensures you control when controller updates happen.
 
 ## Additional Resources
 
