@@ -35,6 +35,7 @@ export default {
       },
       workload_autoscaler: {
         items: {
+          overview: {},
           installation: {},
           autoscaling_policy: {},
           recommendation_policy: {},
