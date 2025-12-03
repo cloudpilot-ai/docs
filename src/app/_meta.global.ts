@@ -47,6 +47,7 @@ export default {
           collapsed: true
         },
         items: {
+          overview: {},
           installation: {},
           autoscaling_policy: {},
           recommendation_policy: {},

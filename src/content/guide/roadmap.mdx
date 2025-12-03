@@ -18,12 +18,61 @@ This iteration mainly focuses on troubleshooting and fixing, performance enhance
 * Intelligent configuration: Currently, for different environments (such as development and production), users need to fine-tune many configurations, which can be burdensome. CloudPilot AI is optimizing this part, with the goal of fully intelligent and automated configuration to reduce user configuration tasks.
 * microVM-based live migration: CRIU, which runc uses, has many limitations, and there are a lot of restrictions during hot migration, such as when the container uses fsnotify. CloudPilot AI will use microVM, bypassing CRIU, to achieve a general live migration. Ultimately, users can leverage this technology to achieve ultra-fast startup (even for Java), allowing the workloads to migrate from one node to another without interruption (for Job types). Combined with CloudPilot AI, this approach reduces costs and improves performance.
 
+#### Workload Autoscaler
+
+### Supports DaemonSet Workloads
+
+We are currently adding support for **DaemonSet workloads**, and this capability is expected in an upcoming release.
+Due to the unique characteristics of DaemonSets, we must ensure that optimizations never interfere with their per-node guarantees or their lifecycle.
+
+DaemonSets will be supported via **OnCreate** and **InPlace** update modes only, ensuring that optimization does not trigger unwanted Pod recreation.
+
+### HPA Compatibility
+
+VPA and HPA compatibility has long been a difficult challenge, as both attempt to control Pod resource usage but in fundamentally different ways, inevitably leading to conflicts.
+CloudPilot AI will introduce improved mechanisms to enable seamless coexistence between HPA and the Workload Autoscaler in future releases.
+
 ### 2025 Fourth Quarter Roadmap
 
 This iteration mainly focuses on completing the basic functions and optimizing the application layer, providing customers with a comprehensive basic functionality experience.
 
-* Workload autoscaler: By intelligently tuning K8s Pod resource requests/limits, it eliminates resource waste while avoiding OOM and CPU Throttling, thereby enhancing business stability.
 * CloudPilot AI Universal: Supports optimizing the Pod resource requests/limits of any K8s cluster, including on-premises and public clouds, with functionalities consistent with the Workload autoscaler.
-* Java application optimization: The optimization of Java application Pod requests/limits is quite different from that of other applications written in Go or other languages. CloudPilot AI will perform the optimization based on various dimensional metrics, including those from the JVM.
 * GKE support: CloudPilot AI will provide GKE optimization support.
 * Organization management: CloudPilot AI will support organization management, allowing multiple organization members to be assigned different permissions for unified cluster management.
+
+#### Workload Autoscaler
+
+### Better Java Workload Handling
+
+Java workloads have always been challenging in Kubernetes environments.
+This is because Java applications typically adjust their internal memory allocation and garbage collection behavior based on the resource settings available at startup.
+As a result, when Requests and Limits are dynamically modified, the JVM may fail to properly adapt, leading to performance degradation or stability issues.
+
+Due to the JVM’s unique design, VPA-like solutions are almost incapable of tuning Java workloads effectively.
+CloudPilot AI has recognized this problem and plans to introduce specialized Java workload handling in future releases.
+
+We will use a non-intrusive approach (such as eBPF) to automatically collect JVM metrics from all Java workloads across the cluster.
+By leveraging indicators such as JVM heap usage and GC latency, we can more accurately assess resource requirements and perform fully automated Java optimization—continuously monitoring GC behavior, CPU throttling, and other signals to balance performance and efficiency.
+
+### Workload Startup Boost
+
+Java workloads often require multiple times more resources during startup compared to their steady state.
+We refer to this as the **Startup Spike** problem.
+With the help of **InPlace Update**, CloudPilot AI ensures that Java workloads receive sufficient resources during startup and then automatically adjusts their Requests and Limits to the appropriate runtime values, eliminating over-provisioning.
+
+For example:
+If a Java workload needs **1Gi** to run but requires **3Gi** during startup, Startup Boost will temporarily raise the memory request to **3Gi** at startup, and automatically reduce it back to **1Gi** after the workload becomes ready.
+
+Previously, users had two undesirable choices:
+- statically configure high Requests to accommodate startup needs → wasting resources,
+- or configure low Requests to save resources → risking startup failure.
+
+Startup Boost fully automates this process and eliminates the trade-off.
+
+### `Auto` Limit Policy
+
+Configuring Limit policies is difficult for many users because it’s unclear how to balance performance and cost.
+Even worse, different workloads may require different limit strategies, increasing operational complexity.
+
+CloudPilot AI will provide an **`Auto` Limit Policy**, which intelligently adjusts Limits based on cluster and node resource conditions.
+This simplifies configuration, improves user experience, and supports defining separate CPU and Memory limit policies.
