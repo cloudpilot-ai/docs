@@ -1,0 +1,67 @@
+---
+title: TSeries Instance Type
+---
+
+# Restricting Burstable Instances for High-CPU Workloads
+
+To avoid service degradation, high-CPU workloads should not be scheduled onto burstable (T-series) instances by default. These instance types are designed for low baseline performance with occasional bursts, which is incompatible with sustained CPU-intensive tasks.
+
+## Burstable Instances and CPU Credits
+
+### What Are Burstable Instances?
+
+Burstable instances (e.g., AWS T-series, Alibaba Cloud T6) are designed for workloads with low baseline CPU usage that occasionally require short bursts of performance. They operate under a CPU credit model that defines how much CPU a workload can consume beyond the baseline.
+
+### How CPU Credits Work
+
+Each burstable instance earns CPU credits continuously at a fixed rate based on its baseline CPU performance. These credits accumulate when the instance uses less CPU than its baseline, and are consumed when usage exceeds the baseline.
+
+* **Credit Accumulation**: Credits are earned only when the actual CPU usage is *below* the baseline threshold.
+
+* **Credit Consumption**: When CPU usage exceeds the baseline, credits are spent at the rate:
+
+  $$
+  \text{Credit consumption} = (\text{Actual CPU usage} - \text{Baseline}) \times \text{vCPU count} \times \text{minutes}
+  $$
+
+* **Performance Cap**: Once credits are exhausted:
+
+  * In **constrained mode**, CPU is throttled to a minimum level (e.g., 0.1 vCPU).
+  * In **unconstrained mode**, CPU can still burst but incurs additional charges.
+
+### Example
+
+For an `ecs.t6-c4m1.large` (2 vCPU, 5% baseline), you receive:
+
+* `2 × 5% × 60 = 6 credits/hour`.
+
+If your service consumes 100% CPU on both cores immediately upon startup, credits are depleted in under 3 minutes. Once depleted, performance is throttled, preventing normal service operation.
+
+## Implementation: Avoiding T-Series for High CPU Utilization
+
+### Detecting High CPU Workloads
+
+To avoid scheduling high-CPU workloads on T-series instances, we integrate CPU usage detection into the rebalance controller:
+
+1. **Metrics Collection**
+
+   * We bypass Metric Server dependency by reading directly from kubelet or cAdvisor endpoints (e.g., `/metrics`, `/stats/summary`).
+   * Use `DetectNodeCPUUsage()` to calculate real-time CPU utilization.
+
+2. **Node Template Updates**
+
+   * During the `ClusterRebalanceStateApplying` and `ClusterRebalanceStateSuccess` phases, check for sustained CPU utilization > 60%.
+   * If threshold is exceeded and T-series is allowed in the node selector, update the node template to exclude T-series.
+
+3. **Provider-Specific Integration**
+
+   * In `UpdateRebalanceConfiguration` (Alibaba/AWS-specific logic), implement validation to enforce this policy.
+
+## Considerations and Strategy
+
+* **Startup Risk**: If a workload starts with high CPU usage, credits can be exhausted before accumulation begins, leading to throttling and failed startups.
+* **Partial Detection Limitation**: Rebalance decisions based only on current CPU metrics may not reflect startup or workload peak patterns.
+* **Policy Recommendation**:
+
+  * For performance-sensitive workloads, disable T-series entirely.
+  * For cost-sensitive or web-type workloads that tolerate burst behavior, allow T-series but use stricter detection and fallback strategies.
