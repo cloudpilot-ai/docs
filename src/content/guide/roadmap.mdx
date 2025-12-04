@@ -20,14 +20,14 @@ This iteration mainly focuses on troubleshooting and fixing, performance enhance
 
 #### Workload Autoscaler
 
-### Supports DaemonSet Workloads
+##### Supports DaemonSet Workloads
 
 We are currently adding support for **DaemonSet workloads**, and this capability is expected in an upcoming release.
 Due to the unique characteristics of DaemonSets, we must ensure that optimizations never interfere with their per-node guarantees or their lifecycle.
 
 DaemonSets will be supported via **OnCreate** and **InPlace** update modes only, ensuring that optimization does not trigger unwanted Pod recreation.
 
-### HPA Compatibility
+##### HPA Compatibility
 
 VPA and HPA compatibility has long been a difficult challenge, as both attempt to control Pod resource usage but in fundamentally different ways, inevitably leading to conflicts.
 CloudPilot AI will introduce improved mechanisms to enable seamless coexistence between HPA and the Workload Autoscaler in future releases.
@@ -42,7 +42,7 @@ This iteration mainly focuses on completing the basic functions and optimizing t
 
 #### Workload Autoscaler
 
-### Better Java Workload Handling
+##### Better Java Workload Handling
 
 Java workloads have always been challenging in Kubernetes environments.
 This is because Java applications typically adjust their internal memory allocation and garbage collection behavior based on the resource settings available at startup.
@@ -54,7 +54,7 @@ CloudPilot AI has recognized this problem and plans to introduce specialized Jav
 We will use a non-intrusive approach (such as eBPF) to automatically collect JVM metrics from all Java workloads across the cluster.
 By leveraging indicators such as JVM heap usage and GC latency, we can more accurately assess resource requirements and perform fully automated Java optimization—continuously monitoring GC behavior, CPU throttling, and other signals to balance performance and efficiency.
 
-### Workload Startup Boost
+##### Workload Startup Boost
 
 Java workloads often require multiple times more resources during startup compared to their steady state.
 We refer to this as the **Startup Spike** problem.
@@ -69,10 +69,19 @@ Previously, users had two undesirable choices:
 
 Startup Boost fully automates this process and eliminates the trade-off.
 
-### `Auto` Limit Policy
+##### `Auto` Limit Policy
 
 Configuring Limit policies is difficult for many users because it’s unclear how to balance performance and cost.
 Even worse, different workloads may require different limit strategies, increasing operational complexity.
 
 CloudPilot AI will provide an **`Auto` Limit Policy**, which intelligently adjusts Limits based on cluster and node resource conditions.
 This simplifies configuration, improves user experience, and supports defining separate CPU and Memory limit policies.
+
+##### Workload Container Application Type & Language Detection
+
+In Kubernetes, different types of workloads have varying resource needs and runtime behaviors.
+CloudPilot AI plans to introduce **Application Type & Language Detection**, allowing the Workload Autoscaler to automatically identify the workload’s application category and programming language—and optimize resources accordingly.
+
+We plan to support detection of major programming languages, including **Java, Go, Python, Node.js, .NET, Ruby, PHP**, and others.
+
+In addition, we will support automatic detection of **ApplicationType**, covering more than **50 common Kubernetes applications**, such as **MySQL, Envoy, Kafka, Redis, Elasticsearch, Prometheus**, and many more.

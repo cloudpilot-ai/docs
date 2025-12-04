@@ -8,15 +8,11 @@ The **Workload Autoscaler** component automatically works in tandem with our **N
 
 It continuously reduces unnecessary expenses, boosts workload performance, and frees your team from the burden of manual resource tuning — allowing you to focus on innovation and creating real business value.
 
-## Features
-
-Workload Autoscaler currently supports the following capabilities:
-
-### Enhanced Optimization Rate Control
+## Optimization Rate Control
 
 We provide multi-dimensional rate-control mechanisms for proactively optimizing (Evict & ReCreate) workloads:
 
-- **Update Time Window**: You can configure the specific time periods during which the Workload Autoscaler is allowed to perform optimizations, ensuring that no updates occur during peak business hours. For detailed configuration, see [here](./autoscaling_policy#update-schedule).
+- **Update Time Window**: You can configure the Workload Autoscaler to apply different optimization behaviors during specific time windows. For example, you may choose to use **OnCreate** update mode (apply recommendations only when Pods are created) from **Monday to Friday, 08:00–20:00**, and switch to **InPlace** update mode (allowing automatic application of updated recommendations to running Pods) during all other hours. For detailed configuration, see [here](./autoscaling_policy#update-schedule).
 
 ![update_schedule](./img/overview/update_schedule.png)
 
@@ -37,7 +33,7 @@ We provide multi-dimensional rate-control mechanisms for proactively optimizing 
 
 ![drift_thresholds](./img/overview/drift_thresholds.png)
 
-### Visualization
+## Visualization
 
 Most existing open-source VPA solutions fail to provide a high-quality visualization interface, leaving users unable to clearly understand the value that VPA brings to a specific workload or to the entire cluster.
 CloudPilot AI addresses this gap by offering a powerful visual dashboard that helps you easily track each workload’s resource usage and the historical changes of its recommendations.
@@ -49,7 +45,7 @@ In addition, you can examine optimization details from both the Pod and Workload
 ![visualization_2](./img/overview/visualization_2.png)
 ![visualization_3](./img/overview/visualization_3.png)
 
-### Flexible Recommendation Settings
+## Flexible Recommendation Settings
 
 In most existing VPA-style products, users can configure only a limited subset of the key variables that influence recommendations.
 CloudPilot AI aims to maximize the number of workload types that can be optimized, so we expose **almost all configuration options**.
@@ -62,7 +58,7 @@ To address this, CloudPilot AI provides a **Simulation** feature that visually d
 
 ![simulation](./img/overview/simulation.png)
 
-### Better Limit Management
+## Better Limit Management
 
 Beyond adjusting workload **Requests**, CloudPilot AI also supports adjusting **Limits**.
 Limit adjustments are more serious because they directly impact Pod stability and cluster-level resource allocation.
@@ -76,7 +72,7 @@ We currently support **three LimitPolicy modes**:
 
 For detailed configuration, see [here](./autoscaling_policy#limit-policy).
 
-### InPlace Update Support
+## InPlace Update Support
 
 **InPlace Update** allows updating workload Requests/Limits *without recreating Pods*, minimizing the impact on running applications.
 This feature officially entered **Beta** in Kubernetes **v1.33** and is enabled by default.
@@ -92,7 +88,7 @@ CloudPilot AI provides enhanced and safer support for InPlace Update inside the 
 
 More details are available [here](./inplace_update_mode_best_practices_and_limitations).
 
-### Configure Everything in 3 Minutes
+## Configure Everything in 3 Minutes
 
 We understand the pain of configuring hundreds of workloads individually.
 That’s why CloudPilot AI offers an extremely simple setup process—**just 3 minutes** to fully configure workload optimization across your entire cluster.
